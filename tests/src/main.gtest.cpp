@@ -27,7 +27,7 @@ TEST(CrossoverTest, StandardCrossover) {
 
     for(int i=0; i<2; i++) {
         std::vector<int> given = result[i].getGenesCopy();
-        EXPECT_THAT(given, testing::AnyOf(result0, result1));
+        EXPECT_THAT(given, testing::AnyOf(expected0, expected1));
     }
 
 }
