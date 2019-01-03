@@ -6,6 +6,8 @@
 #define GENETIC_ALGORITHM_GENOTYPE_H
 
 #include <vector>
+#include <array>
+#include <utility>
 #include <string>
 
 namespace Genotype {
@@ -33,12 +35,24 @@ namespace Genotype {
         enum class ParentType {
             DEFAULT,
             PRIMARY,
-            SECONDARY
+            SECONDARY,
+            ORDERED
         };
-        virtual void addParent(const Genotype &a, ParentType type = ParentType::DEFAULT) = 0;
-        virtual void calculate() = 0;
-        std::vector<Genotype> getResult();
+        virtual void addParent(const Genotype &a, ParentType type) = 0;
+        virtual bool calculate() = 0;
+        virtual std::vector<Genotype> getResult();
         virtual void clear() = 0;
+    };
+
+    class StandardCrossover : public Crossover {
+    protected:
+        std::array<std::pair<Genotype, bool>, 2> parents;
+        uint_fast16_t insertIndex = 0; // Should be changed only in addParent
+    public:
+        StandardCrossover();
+        void addParent(const Genotype &a, ParentType type = ParentType::DEFAULT) final;
+        bool calculate() override;
+        void clear();
     };
 
 
