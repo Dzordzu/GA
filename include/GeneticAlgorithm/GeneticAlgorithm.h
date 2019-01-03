@@ -6,5 +6,6 @@
 #define GENETIC_ALGORITHM_GENETICALGORITHM_H
 
 #include "Genotype.h"
+#include "Linkage.h"
 
 #endif //GENETIC_ALGORITHM_GENETICALGORITHM_H

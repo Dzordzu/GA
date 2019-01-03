@@ -4,7 +4,16 @@
 
 #include "gmock/gmock.h"
 #include "GeneticAlgorithm/GeneticAlgorithm.h"
+#include "Genotype.h"
+#include "Linkage.h"
 #include <vector>
+
+TEST(LinkageTest, Clusters) {
+    Linkage::Cluster empty;
+    Linkage::Cluster single({1, 2}, Linkage::Cluster::Type::SINGLE);
+    Linkage::Cluster multiple({1, 2, 3});
+    Linkage::Cluster forceEmpty({1, 2}, Linkage::Cluster::Type::EMPTY);
+}
 
 TEST(CrossoverTest, StandardCrossover) {
     using Genotype::StandardCrossover;
