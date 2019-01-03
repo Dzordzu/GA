@@ -20,7 +20,7 @@ namespace Genotype {
         std::vector<int> genes;
     public:
         Genotype();
-        Genotype(std::vector<int> genes);
+        explicit Genotype(std::vector<int> genes);
         std::vector<int> getGenesCopy();
 
     };

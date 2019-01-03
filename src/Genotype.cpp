@@ -43,7 +43,7 @@ namespace Genotype {
 
         for(int i=0;i<parents.size(); i++) {
             if(!parents[i].second) return false;
-            parents[i].first.getGenesCopy();
+            parentGenotypes[i] = parents[i].first.getGenesCopy();
         }
 
 
