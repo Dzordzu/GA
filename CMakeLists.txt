@@ -16,3 +16,5 @@ target_include_directories(GeneticAlgorithm
             ${CMAKE_CURRENT_SOURCE_DIR}/src
         )
 target_compile_features(GeneticAlgorithm PRIVATE cxx_std_17)
+
+add_subdirectory(tests)

@@ -1,0 +1,2 @@
+add_executable(GeneticAlgorithmTests src/main.gtest.cpp)
+target_link_libraries(GeneticAlgorithmTests GeneticAlgorithm gtest)
