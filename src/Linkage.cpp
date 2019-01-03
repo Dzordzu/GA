@@ -3,3 +3,9 @@
 //
 
 #include "Linkage.h"
+
+namespace Linkage {
+    Cluster::Cluster() {
+        
+    }
+};

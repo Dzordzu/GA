@@ -50,7 +50,7 @@ namespace Linkage {
         };
 
         Cluster();
-        Cluster(std::vector<size_t> mask);
+        explicit Cluster(std::vector<size_t> mask);
         std::vector<size_t> getMask();
     };
 

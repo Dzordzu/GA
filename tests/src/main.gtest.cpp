@@ -13,6 +13,11 @@ TEST(LinkageTest, Clusters) {
     Linkage::Cluster single({1, 2}, Linkage::Cluster::Type::SINGLE);
     Linkage::Cluster multiple({1, 2, 3});
     Linkage::Cluster forceEmpty({1, 2}, Linkage::Cluster::Type::EMPTY);
+
+    EXPECT_EQ(empty.getMask(), std::vector<size_t>());
+    EXPECT_EQ(single.getMask(), std::vector<size_t>(1, 1));
+    EXPECT_EQ(multiple.getMask(), std::vector<size_t>({1, 2, 3}));
+    EXPECT_EQ(forceEmpty, std::vector<size_t>());
 }
 
 TEST(CrossoverTest, StandardCrossover) {
