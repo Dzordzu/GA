@@ -421,5 +421,6 @@ fabric.properties
 .idea/httpRequests
 
 # Own
-*.tmp.cpp
-*.tmp.h
+*.tmp.*
+temp/
+tmp/
