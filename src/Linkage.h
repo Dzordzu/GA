@@ -5,8 +5,13 @@
 #ifndef GENETIC_ALGORITHM_LINKAGE_H
 #define GENETIC_ALGORITHM_LINKAGE_H
 
+namespace Linkage {
 
-class Linkage {
+
+
+};
+
+namespace Genotype {
 
 };
 

@@ -419,3 +419,7 @@ fabric.properties
 
 # Editor-based Rest Client
 .idea/httpRequests
+
+# Own
+*.tmp.cpp
+*.tmp.h
