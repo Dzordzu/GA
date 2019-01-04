@@ -66,7 +66,7 @@ TEST(LinkageTest, ConnectivityMatrix) {
     double get_1_2, get_2_1, get_1_1;
 
     EXPECT_TRUE(matrix.get(1, 2, get_1_2));
-    EXPECT_EQ(get_1_2, 0.4);
+    EXPECT_EQ(get_1_2, 0.9);
 
     EXPECT_TRUE(matrix.get(2, 1, get_2_1));
     EXPECT_EQ(get_1_2, get_2_1);

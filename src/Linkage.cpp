@@ -12,8 +12,10 @@ namespace Linkage {
                 mask.erase(mask.begin() + 1, mask.end());
                 mask.resize(1);
                 mask.reserve(1);
+                break;
             case Type::EMPTY:
                 mask.clear();
+                break;
             default:
                 break;
         }
@@ -41,5 +43,28 @@ namespace Linkage {
         if (y < x) std::swap(x, y);
         result = elements[x][y-(x+1)];
         return true;
+    }
+
+    std::vector<std::pair<size_t, double>> ConnectivityMatrix::getMinimums() {
+
+        typedef std::pair<size_t, double> pair_min;
+        std::vector<pair_min> result;
+
+        for (size_t i = 0; i < getSize(); i++) {
+
+            double localMin = std::numeric_limits<double>::max();
+
+            for (size_t j = 0; j < getSize(); j++) {
+                if (i == j) continue;
+                double minHelper;
+                get(i, j, minHelper);
+                localMin = std::min(minHelper, localMin);
+            }
+            result.emplace_back(pair_min(i, localMin));
+        }
+        std::sort(result.begin(), result.end(), [](pair_min a, pair_min b){
+            return a.second == b.second ? a.first < b.first : a.second < b.second;
+        });
+        return result;
     }
 };

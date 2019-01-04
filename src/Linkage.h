@@ -37,6 +37,8 @@
 #include "Genotype.h"
 #include <vector>
 #include <utility> // CAREFUL: std::swap belongs here ONLY since C++11. If needed use #include <algorithm>
+#include <algorithm>
+#include <limits>
 
 namespace Linkage {
 
@@ -60,7 +62,7 @@ namespace Linkage {
         bool insert(size_t x, size_t y, double value);
         bool get(size_t x, size_t y, double &result);
         std::vector<std::pair<size_t, double>> getMinimums(); // <row_id, min_value>
-        size_t getSize();
+        inline size_t getSize() { return size; };
     };
     class Tree;
     class Algorithm;
