@@ -40,21 +40,23 @@
 namespace Linkage {
 
     class Cluster {
+    private:
         std::vector<size_t> mask;
     public:
-
-        enum class Type {
-            EMPTY,
-            SINGLE,
-            MULTIPLE
-        };
-
+        enum class Type {EMPTY, SINGLE, MULTIPLE};
         Cluster();
-        explicit Cluster(std::vector<size_t> mask);
-        std::vector<size_t> getMask();
+        explicit Cluster(std::vector<size_t> mask, Type type = Type::MULTIPLE);
+        inline std::vector<size_t> getMask() {return this->mask;};
     };
 
-    class Matrix;
+    class Matrix {
+        size_t size;
+        std::vector<std::vector<double>> elements;
+    public:
+        double get(size_t x, size_t y);
+        std::vector<std::pair<size_t, double>> getMinimums();
+        size_t getSize();
+    };
     class Tree;
     class Algorithm;
 

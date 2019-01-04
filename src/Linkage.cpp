@@ -5,7 +5,19 @@
 #include "Linkage.h"
 
 namespace Linkage {
-    Cluster::Cluster() {
-        
+    Cluster::Cluster() = default;
+    Cluster::Cluster(std::vector<size_t> mask, Type type) {
+        switch(type) {
+            case Type::SINGLE:
+                mask.erase(mask.begin() + 1, mask.end());
+                mask.resize(1);
+                mask.reserve(1);
+            case Type::EMPTY:
+                mask.clear();
+            default:
+                break;
+        }
+
+        this->mask = mask;
     }
 };
