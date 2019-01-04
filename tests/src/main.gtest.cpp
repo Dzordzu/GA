@@ -21,7 +21,7 @@ TEST(LinkageTest, Clusters) {
     EXPECT_EQ(forceEmpty.getMask(), std::vector<size_t>());
 }
 
-TEST(LinkageTest, Matrix) {
+TEST(LinkageTest, ConnectivityMatrix) {
 
     // Results for getMinimums
     typedef std::pair<size_t, double> VECTOR_PAIR;
@@ -39,12 +39,14 @@ TEST(LinkageTest, Matrix) {
             VECTOR_PAIR(3, 0.3)
     };
 
-    Linkage::Matrix matrix(4);
+    Linkage::ConnectivityMatrix matrix(4);
 
     EXPECT_EQ(matrix.getSize(), 4);
 
     // Default value
-    EXPECT_EQ(matrix.get(2, 3), 0);
+    double def;
+    matrix.get(2, 3, def);
+    EXPECT_EQ(def, 0);
 
     // Insertions
     EXPECT_TRUE(matrix.insert(1, 2, 0.4));
@@ -60,13 +62,19 @@ TEST(LinkageTest, Matrix) {
     matrix.insert(1, 3, 0.2);
     matrix.insert(2, 3, 0.1);
 
-    // Getter
-    EXPECT_EQ(matrix.get(1, 2), 0.4);
-    EXPECT_EQ(matrix.get(1, 2), matrix.get(2, 1));
+    // Getters
+    double get_1_2, get_2_1, get_1_1;
+
+    EXPECT_TRUE(matrix.get(1, 2, get_1_2));
+    EXPECT_EQ(get_1_2, 0.4);
+
+    EXPECT_TRUE(matrix.get(2, 1, get_2_1));
+    EXPECT_EQ(get_1_2, get_2_1);
 
     // Invalid get on the decreasing diagonal
-    EXPECT_ANY_THROW(matrix.get(1, 1));
+    EXPECT_FALSE(matrix.get(1, 1, get_1_1));
 
+    // Minimums
     EXPECT_EQ(matrix.getMinimums(), expected1);
 
     matrix.insert(0, 1, 0.1);

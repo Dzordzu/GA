@@ -36,7 +36,7 @@
 
 #include "Genotype.h"
 #include <vector>
-#include <utility>
+#include <utility> // CAREFUL: std::swap belongs here ONLY since C++11. If needed use #include <algorithm>
 
 namespace Linkage {
 
@@ -50,13 +50,15 @@ namespace Linkage {
         inline std::vector<size_t> getMask() {return this->mask;};
     };
 
-    class Matrix {
+    // Handles transitive, anti-reflexive relation
+    // Data is stored in a triangle, and accessible as in a regular matrix
+    class ConnectivityMatrix {
         size_t size;
         std::vector<std::vector<double>> elements;
     public:
-        explicit Matrix(size_t size, double defaultValue = 0);
+        explicit ConnectivityMatrix(size_t size, double defaultValue = 0);
         bool insert(size_t x, size_t y, double value);
-        double get(size_t x, size_t y);
+        bool get(size_t x, size_t y, double &result);
         std::vector<std::pair<size_t, double>> getMinimums(); // <row_id, min_value>
         size_t getSize();
     };
