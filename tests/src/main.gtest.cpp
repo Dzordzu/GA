@@ -17,7 +17,19 @@ TEST(LinkageTest, Clusters) {
     EXPECT_EQ(empty.getMask(), std::vector<size_t>());
     EXPECT_EQ(single.getMask(), std::vector<size_t>(1, 1));
     EXPECT_EQ(multiple.getMask(), std::vector<size_t>({1, 2, 3}));
-    EXPECT_EQ(forceEmpty, std::vector<size_t>());
+    EXPECT_EQ(forceEmpty.getMask(), std::vector<size_t>());
+}
+
+TEST(LinkageTest, Matrix) {
+    Linkage::Matrix matrix(4);
+
+
+    EXPECT_TRUE(matrix.insert(1, 2, 0.4));
+    EXPECT_FALSE(matrix.insert(1, 1, 0.1));
+
+    EXPECT_ANY_THROW(matrix.get(1, 1));
+    EXPECT_EQ(matrix.get(1, 2), 0.4);
+    EXPECT_EQ(matrix.get(1, 2), matrix.get(2, 1));
 }
 
 TEST(CrossoverTest, StandardCrossover) {
