@@ -53,6 +53,7 @@ namespace Linkage {
         size_t size;
         std::vector<std::vector<double>> elements;
     public:
+        void insert(size_t x, size_t y, double value);
         double get(size_t x, size_t y);
         std::vector<std::pair<size_t, double>> getMinimums();
         size_t getSize();
