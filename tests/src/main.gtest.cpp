@@ -24,20 +24,20 @@ TEST(LinkageTest, Clusters) {
 TEST(LinkageTest, Matrix) {
 
     // Results for getMinimums
-    #define VECTOR_PAIR std::pair<size_t, double>
-        std::vector<VECTOR_PAIR> expected1 {
-                VECTOR_PAIR(2, 0.1),
-                VECTOR_PAIR(3, 0.1),
-                VECTOR_PAIR(0, 0.15),
-                VECTOR_PAIR(1, 0.15),
-        };
-        std::vector<VECTOR_PAIR> expected2 {
-                VECTOR_PAIR(0, 0.1),
-                VECTOR_PAIR(1, 0.1),
-                VECTOR_PAIR(2, 0.2),
-                VECTOR_PAIR(3, 0.3)
-        };
-    #undef VECTOR_PAIR
+    typedef std::pair<size_t, double> VECTOR_PAIR;
+
+    std::vector<VECTOR_PAIR> expected1 {
+            VECTOR_PAIR(2, 0.1),
+            VECTOR_PAIR(3, 0.1),
+            VECTOR_PAIR(0, 0.15),
+            VECTOR_PAIR(1, 0.15),
+    };
+    std::vector<VECTOR_PAIR> expected2 {
+            VECTOR_PAIR(0, 0.1),
+            VECTOR_PAIR(1, 0.1),
+            VECTOR_PAIR(2, 0.2),
+            VECTOR_PAIR(3, 0.3)
+    };
 
     Linkage::Matrix matrix(4);
 
