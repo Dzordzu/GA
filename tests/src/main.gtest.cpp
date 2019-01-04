@@ -7,6 +7,7 @@
 #include "Genotype.h"
 #include "Linkage.h"
 #include <vector>
+#include <utility>
 
 TEST(LinkageTest, Clusters) {
     Linkage::Cluster empty;
@@ -21,15 +22,63 @@ TEST(LinkageTest, Clusters) {
 }
 
 TEST(LinkageTest, Matrix) {
+
+    // Results for getMinimums
+    #define VECTOR_PAIR std::pair<size_t, double>
+        std::vector<VECTOR_PAIR> expected1 {
+                VECTOR_PAIR(2, 0.1),
+                VECTOR_PAIR(3, 0.1),
+                VECTOR_PAIR(0, 0.15),
+                VECTOR_PAIR(1, 0.15),
+        };
+        std::vector<VECTOR_PAIR> expected2 {
+                VECTOR_PAIR(0, 0.1),
+                VECTOR_PAIR(1, 0.1),
+                VECTOR_PAIR(2, 0.2),
+                VECTOR_PAIR(3, 0.3)
+        };
+    #undef VECTOR_PAIR
+
     Linkage::Matrix matrix(4);
 
+    EXPECT_EQ(matrix.getSize(), 4);
 
+    // Default value
+    EXPECT_EQ(matrix.get(2, 3), 0);
+
+    // Insertions
     EXPECT_TRUE(matrix.insert(1, 2, 0.4));
+    EXPECT_TRUE(matrix.insert(1, 2, 0.9));
+
+    // Invalid insertion on the decreasing diagonal
     EXPECT_FALSE(matrix.insert(1, 1, 0.1));
 
-    EXPECT_ANY_THROW(matrix.get(1, 1));
+    matrix.insert(0, 1, 0.15);
+    matrix.insert(0, 2, 0.5);
+    matrix.insert(0, 3, 0.3);
+
+    matrix.insert(1, 3, 0.2);
+    matrix.insert(2, 3, 0.1);
+
+    // Getter
     EXPECT_EQ(matrix.get(1, 2), 0.4);
     EXPECT_EQ(matrix.get(1, 2), matrix.get(2, 1));
+
+    // Invalid get on the decreasing diagonal
+    EXPECT_ANY_THROW(matrix.get(1, 1));
+
+    EXPECT_EQ(matrix.getMinimums(), expected1);
+
+    matrix.insert(0, 1, 0.1);
+    matrix.insert(0, 2, 0.2);
+    matrix.insert(0, 3, 0.3);
+
+    matrix.insert(1, 3, 0.5);
+    matrix.insert(2, 3, 0.6);
+
+    EXPECT_EQ(matrix.getMinimums(), expected2);
+
+
 }
 
 TEST(CrossoverTest, StandardCrossover) {

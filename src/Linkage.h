@@ -36,6 +36,7 @@
 
 #include "Genotype.h"
 #include <vector>
+#include <utility>
 
 namespace Linkage {
 
@@ -53,9 +54,10 @@ namespace Linkage {
         size_t size;
         std::vector<std::vector<double>> elements;
     public:
+        explicit Matrix(size_t size, double defaultValue = 0);
         bool insert(size_t x, size_t y, double value);
         double get(size_t x, size_t y);
-        std::vector<std::pair<size_t, double>> getMinimums();
+        std::vector<std::pair<size_t, double>> getMinimums(); // <row_id, min_value>
         size_t getSize();
     };
     class Tree;
