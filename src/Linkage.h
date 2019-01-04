@@ -64,7 +64,21 @@ namespace Linkage {
         std::vector<std::pair<size_t, double>> getMinimums(); // <row_id, min_value>
         inline size_t getSize() { return size; };
     };
-    class Tree;
+
+
+    class Tree {
+        struct Relation {
+            inline Relation(Cluster & first, Cluster & second) : first(first), second(second) {}
+            Cluster & first;
+            Cluster & second;
+        };
+        std::vector<Cluster> clusters;
+        std::vector<Relation> relations;
+    public:
+        std::vector<Cluster> getAll();
+        std::vector<Cluster> getAllSorted();
+        std::vector<Cluster> getIncluding(Cluster submask);
+    };
     class Algorithm;
 
 
