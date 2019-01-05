@@ -39,6 +39,7 @@
 #include <utility> // CAREFUL: std::swap belongs here ONLY since C++11. If needed use #include <algorithm>
 #include <algorithm>
 #include <limits>
+#include <map>
 
 namespace Linkage {
 
@@ -65,21 +66,18 @@ namespace Linkage {
         inline size_t getSize() { return size; };
     };
 
+    class Algorithm {
 
-    class Tree {
-        struct Relation {
-            inline Relation(Cluster & first, Cluster & second) : first(first), second(second) {}
-            Cluster & first;
-            Cluster & second;
-        };
-        std::vector<Cluster> clusters;
-        std::vector<Relation> relations;
+        ConnectivityMatrix dsm;
+        ConnectivityMatrix distanceMeasure;
+        std::vector<Cluster> result;
+
+        double reductionFormula(Cluster a, Cluster b);
+
     public:
-        std::vector<Cluster> getAll();
-        std::vector<Cluster> getAllSorted();
-        std::vector<Cluster> getIncluding(Cluster submask);
+        void calculate(std::vector<Genotype::Genotype> &genotypes);
+        inline std::vector<Linkage::Cluster> getClusters() { return result; };
     };
-    class Algorithm;
 
 
 };

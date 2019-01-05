@@ -67,4 +67,24 @@ namespace Linkage {
         });
         return result;
     }
+
+    double Algorithm::reductionFormula(Cluster a, Cluster b) {
+
+        if(a.getMask().size() == 0 || b.getMask().size() == 0 || (a.getMask().size() > 1 && b.getMask().size() > 1))
+            return -(std::numeric_limits<double>::max());
+
+        if(b.getMask().size() < a.getMask().size()) std::swap(a, b);
+
+        double result = 0;
+        for (int i = 0; i < b.getMask().size(); i++) {
+            double helper;
+            if(distanceMeasure.get(b.getMask()[i], a.getMask()[0], helper)) result += helper;
+            else return -(std::numeric_limits<double>::max());
+        }
+        return result / b.getMask().size();
+    }
+
+    void Algorithm::calculate(std::vector<Genotype::Genotype> &genotypes) {
+        
+    }
 };
