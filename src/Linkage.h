@@ -50,7 +50,7 @@ namespace Linkage {
         enum class Type {EMPTY, SINGLE, MULTIPLE};
         Cluster();
         explicit Cluster(std::vector<size_t> mask, Type type = Type::MULTIPLE);
-        inline std::vector<size_t> getMask() {return this->mask;};
+        inline std::vector<size_t> &getMask() {return this->mask;};
 
         inline const bool operator==(const Cluster& c) const {
             if(mask.size() != c.mask.size()) return false;
@@ -91,7 +91,19 @@ namespace Linkage {
 };
 
 namespace Genotype {
-    class LinkageStandardCrossover : public StandardCrossover {};
+    class LinkageStandardCrossover : public StandardCrossover {
+    protected:
+        std::vector<Linkage::Cluster> clusters;
+        size_t currentClusterIndex;
+        bool finished;
+    public:
+        inline LinkageStandardCrossover() : StandardCrossover() {currentClusterIndex = 0;};
+        inline void addClusters(std::vector<Linkage::Cluster>& clusters) {this->clusters = clusters;}
+        inline bool calculate() override {return nextCalculation();}
+        bool nextCalculation();
+        inline bool isFinished() { return finished; }
+        inline void restartClusters() {currentClusterIndex = 0;finished = false;}
+    };
 };
 
 

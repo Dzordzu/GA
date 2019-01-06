@@ -228,3 +228,24 @@ namespace Linkage {
 
     }
 };
+
+namespace Genotype {
+
+    bool LinkageStandardCrossover::nextCalculation() {
+        if(finished) return false;
+        if(clusters.empty()) return StandardCrossover::calculate();
+
+        std::vector<int> mother = parents[0].first.getGenesCopy();
+        std::vector<int> father = parents[1].first.getGenesCopy();
+
+        for(size_t i=0; i<clusters[currentClusterIndex].getMask().size(); i++) {
+            size_t replaced = clusters[currentClusterIndex].getMask()[i];
+            mother[replaced] = father[replaced];
+        }
+
+        result.emplace_back(Genotype(mother));
+        currentClusterIndex++;
+        if(currentClusterIndex >= clusters.size()) finished = true;
+
+    }
+}

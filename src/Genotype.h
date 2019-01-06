@@ -52,7 +52,7 @@ namespace Genotype {
         StandardCrossover();
         void addParent(const Genotype &a, ParentType type = ParentType::DEFAULT) final;
         bool calculate() override;
-        void clear();
+        void clear() override;
     };
 
 
