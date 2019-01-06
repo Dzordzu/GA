@@ -89,6 +89,47 @@ TEST(LinkageTest, ConnectivityMatrix) {
 
 }
 
+TEST(LinkageTest, Algorithm) {
+
+    using Genotype::Genotype;
+    using Linkage::Cluster;
+
+    std::vector<Genotype> genotypes_9 {
+            Genotype({1, 1, 1, 0, 0, 0, 1, 1, 1}),
+            Genotype({0, 0, 0, 1, 1, 1, 1, 1, 1}),
+            Genotype({0, 1, 1, 0, 0, 0, 1, 1, 1}),
+            Genotype({0, 1, 0, 1, 1, 1, 1, 1, 1}),
+            Genotype({1, 0, 1, 0, 0, 0, 1, 1, 1}),
+            Genotype({0, 0, 1, 1, 1, 1, 1, 1, 1}),
+            Genotype({1, 1, 1, 0, 0, 0, 1, 1, 1}),
+            Genotype({1, 0, 0, 1, 1, 1, 1, 1, 1}),
+    };
+
+    Linkage::Algorithm algo;
+    algo.calculate(genotypes_9);
+
+    std::vector<Cluster> result = {};
+
+    EXPECT_THAT(algo.getClusters(), testing::ElementsAre(
+            Cluster({1}),
+            Cluster({2}),
+            Cluster({3}),
+            Cluster({4}),
+            Cluster({5}),
+            Cluster({6}),
+            Cluster({7}),
+            Cluster({8}),
+            Cluster({0}),
+            Cluster({3, 4}),
+            Cluster({6, 7}),
+            Cluster({3, 4, 5}),
+            Cluster({6, 7, 8}),
+            Cluster({2, 3, 4, 5}),
+            Cluster({0, 2, 3, 4, 5}),
+            Cluster({0, 1, 2, 3, 4, 5})
+            ));
+}
+
 TEST(CrossoverTest, StandardCrossover) {
     using Genotype::StandardCrossover;
     using Genotype::Genotype;

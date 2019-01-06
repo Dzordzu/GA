@@ -51,6 +51,12 @@ namespace Linkage {
         Cluster();
         explicit Cluster(std::vector<size_t> mask, Type type = Type::MULTIPLE);
         inline std::vector<size_t> getMask() {return this->mask;};
+
+        bool operator==(const Cluster& c) {
+            if(mask.size() != c.mask.size()) return false;
+            for(int i=0; i<mask.size(); i++) if(c.mask.size() != mask.size()) return false;
+            return true;
+        }
     };
 
     // Handles transitive, anti-reflexive relation
@@ -59,6 +65,7 @@ namespace Linkage {
         size_t size;
         std::vector<std::vector<double>> elements;
     public:
+        ConnectivityMatrix() = default;
         explicit ConnectivityMatrix(size_t size, double defaultValue = 0);
         bool insert(size_t x, size_t y, double value);
         bool get(size_t x, size_t y, double &result);

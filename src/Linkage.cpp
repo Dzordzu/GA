@@ -85,6 +85,12 @@ namespace Linkage {
     }
 
     void Algorithm::calculate(std::vector<Genotype::Genotype> &genotypes) {
-        
+
+        dsm = ConnectivityMatrix(genotypes.size());
+        distanceMeasure = ConnectivityMatrix(genotypes.size());
+
+
+
+
     }
 };
