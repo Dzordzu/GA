@@ -1,0 +1,38 @@
+//
+// Created by dzordzu on 06.01.19.
+//
+
+#ifndef GENETIC_ALGORITHM_CONSTANTS_H
+#define GENETIC_ALGORITHM_CONSTANTS_H
+
+namespace GeneticAlgorithms {
+    namespace Constants {
+
+        namespace Version {
+            const uint_fast16_t major = 0;
+            const uint_fast16_t minor = 1;
+        }
+
+        namespace Population {
+            const size_t TINY = 200;
+            const size_t SMALL = 400;
+            const size_t NORMAL = 500;
+            const size_t BIG = 1000;
+            const size_t HUGE = 1500;
+            const size_t ENORMOUS = 3000;
+        }
+
+        namespace Probability {
+            const double MUTATION = 0.05;
+            const double MUTATION_SINGLE_GENE = 0.1;
+            const double CROSSOVER = 0.1;
+            const double LINKIN_TREE_GENERATION = 0.07;
+            const double P3_FEEDBACK = 0.01;
+        }
+
+
+
+    };
+};
+
+#endif //GENETIC_ALGORITHM_CONSTANTS_H
