@@ -31,6 +31,12 @@ namespace GeneticAlgorithms {
     };
 
 
+    template<typename SIZE>
+    class FixedSizeGA : public GABase{
+        
+    };
+
+
 };
 
 #endif //GENETIC_ALGORITHM_GENETICALGORITHM_H
