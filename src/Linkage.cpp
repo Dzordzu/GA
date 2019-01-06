@@ -97,7 +97,7 @@ namespace Linkage {
 
 
         for (size_t x = 0; x < genesAmount - 1; x++) {
-            for (size_t y = 0; y < genesAmount - (x+1); y++) {
+            for (size_t y = 0; y < genesAmount; y++) {
 
                 std::array<std::array<size_t, 2>, 2> genesCorrelation = {
                         std::array<size_t, 2> {0, 0},
@@ -110,7 +110,7 @@ namespace Linkage {
                 for (int i = 0; i < genotypesAmount; i++) {
 
                     int geneX = genotypes[i].getGenesCopy()[x];
-                    int geneY = genotypes[i].getGenesCopy()[ y + ( x + 1) ];
+                    int geneY = genotypes[i].getGenesCopy()[ y  ];
 
                     genesCorrelation[geneX != 0][geneY != 0]++;
                     geneXval[geneX != 0]++;
