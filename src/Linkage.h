@@ -52,7 +52,7 @@ namespace Linkage {
         explicit Cluster(std::vector<size_t> mask, Type type = Type::MULTIPLE);
         inline std::vector<size_t> getMask() {return this->mask;};
 
-        bool operator==(const Cluster& c) {
+        inline const bool operator==(const Cluster& c) const {
             if(mask.size() != c.mask.size()) return false;
             for(int i=0; i<mask.size(); i++) if(c.mask.size() != mask.size()) return false;
             return true;

@@ -108,8 +108,6 @@ TEST(LinkageTest, Algorithm) {
     Linkage::Algorithm algo;
     algo.calculate(genotypes_9);
 
-    std::vector<Cluster> result = {};
-
     EXPECT_THAT(algo.getClusters(), testing::ElementsAre(
             Cluster({1}),
             Cluster({2}),
