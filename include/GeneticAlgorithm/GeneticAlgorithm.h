@@ -12,6 +12,23 @@
 
 namespace GeneticAlgorithms {
 
+    class Individual {
+    protected:
+        Genotype::Genotype genotype;
+    public:
+        virtual double getFitness() = 0;
+    };
+
+    class GABase {
+    protected:
+        double fitness;
+        Individual * individual;
+    public:
+        virtual bool iterate() = 0;
+        virtual bool populate() = 0;
+        virtual bool getClusters(std::vector<Linkage::Cluster> clusters) = 0;
+        virtual bool getIndividual(Individual individual) = 0;
+    };
 
 
 };
