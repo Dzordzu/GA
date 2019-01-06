@@ -2,6 +2,7 @@
 // Created by dzordzu on 02.01.19.
 //
 
+#include <cmath>
 #include "Linkage.h"
 
 namespace Linkage {
@@ -23,8 +24,8 @@ namespace Linkage {
         this->mask = mask;
     }
 
-    ConnectivityMatrix::ConnectivityMatrix(size_t size, double defaultValue) {
-        this->size = size;
+    ConnectivityMatrix::ConnectivityMatrix(size_t genesAmountInGenotype, double defaultValue) {
+        this->size = genesAmountInGenotype;
         elements.resize(size-1);
         for(size_t i=0; i<size-1; i++) {
             elements[i] = std::vector<double>(size-1-i, defaultValue);
@@ -86,8 +87,77 @@ namespace Linkage {
 
     void Algorithm::calculate(std::vector<Genotype::Genotype> &genotypes) {
 
-        dsm = ConnectivityMatrix(genotypes.size());
-        distanceMeasure = ConnectivityMatrix(genotypes.size());
+
+        size_t genesAmount= genotypes[0].getGenesCopy().size();
+        size_t genotypesAmount = genotypes.size();
+
+        dsm = ConnectivityMatrix(genesAmount);
+        distanceMeasure = ConnectivityMatrix(genesAmount);
+
+
+
+        for (size_t x = 0; x < genesAmount - 1; x++) {
+            for (size_t y = 0; y < genesAmount - (x+1); y++) {
+
+                std::array<std::array<size_t, 2>, 2> genesCorrelation = {
+                        std::array<size_t, 2> {0, 0},
+                        std::array<size_t, 2> {0, 0}
+                };
+
+                std::array<size_t, 2> geneXval = {0, 0};
+                std::array<size_t, 2> geneYval = {0, 0};
+
+                for (int i = 0; i < genotypesAmount; i++) {
+
+                    int geneX = genotypes[i].getGenesCopy()[x];
+                    int geneY = genotypes[i].getGenesCopy()[ y + ( x + 1) ];
+
+                    genesCorrelation[geneX != 0][geneY != 0]++;
+                    geneXval[geneX != 0]++;
+                    geneYval[geneY != 0]++;
+                }
+
+
+                double cell = 0;
+                for (int i = 0; i < 2; i++) {
+                    for (int j = 0; j < 2; j++) {
+                        double numerator = (double) genesCorrelation[i][j] / (double) genotypesAmount;
+                        double denominator = ((double) geneXval[i] / (double) genotypesAmount) * ((double) geneYval[j] / (double) genotypesAmount);
+                        if (denominator == numerator || numerator == 0) {
+                            cell += 0;
+                            continue;
+                        }
+                        //std::cout << "Numerator: " << numerator << ", Denominator: " << denominator << std::endl;
+                        double value = (numerator * std::log(numerator / denominator));
+                        cell += value;
+                    }
+                }
+
+                cell = std::max(cell, (double)0);
+                dsm.insert(x, y, cell);
+
+                // Here we start calculating distance from DSM
+                double H = 0;
+                for (int i = 0; i < 2; i++) {
+                    for (int j = 0; j < 2; j++) {
+                        double logarithmArgument = (double)genesCorrelation[i][j] / (double)genotypesAmount;
+                        if (logarithmArgument == 0) {
+                            H += 0;
+                            continue;
+                        }
+                        H += logarithmArgument * log( logarithmArgument );
+                    }
+                }
+                H = -H;
+
+                if (H == 0) cell = 0;
+                else {
+                    cell = (H - cell) / H;
+                }
+
+                distanceMeasure.insert(x, y, cell);
+            }
+        }
 
 
 
