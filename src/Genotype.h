@@ -5,6 +5,8 @@
 #ifndef GENETIC_ALGORITHM_GENOTYPE_H
 #define GENETIC_ALGORITHM_GENOTYPE_H
 
+#include "GeneticAlgorithm/Constants.h"
+#include "Utils.h"
 #include <vector>
 #include <array>
 #include <utility>
@@ -23,10 +25,36 @@ namespace Genotype {
         explicit Genotype(std::vector<int> genes);
         std::vector<int> getGenesCopy();
         const bool operator==(const Genotype& g) const;
+        inline const bool operator!=(const Genotype& g) const {return !(*this == g);}
     };
 
 
     class Operation {};
+
+    class Mutation : public Operation {
+    protected:
+        Genotype result;
+        Genotype target;
+    public:
+        inline Genotype &getResult() {return result;}
+        virtual bool mutate() = 0;
+        inline void setTarget(const Genotype& target) {this->target = target;}
+    };
+
+    class StandardMutation : public Mutation {
+    public:
+        bool mutate() override {
+            std::vector<int> genotype = target.getGenesCopy();
+            for(size_t i=0; i<genotype.size(); i++) {
+                if(GeneticAlgorithms::Utils::getRandomPercentage() < GeneticAlgorithms::Constants::Probability::MUTATION_SINGLE_GENE)
+                    genotype[i] = genotype[i] == 0 ? 1 : 0;
+            }
+            this->result = Genotype(genotype);
+            return true;
+        }
+    };
+
+
 
     class Crossover : public Operation {
     protected:

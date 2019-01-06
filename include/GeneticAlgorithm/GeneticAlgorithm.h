@@ -8,7 +8,7 @@
 #include "Constants.h"
 #include "Genotype.h"
 #include "Linkage.h"
-#include "RandUtils.h"
+#include "Utils.h"
 
 namespace GeneticAlgorithms {
 
@@ -27,13 +27,13 @@ namespace GeneticAlgorithms {
         virtual bool iterate() = 0;
         virtual bool populate() = 0;
         virtual bool getClusters(std::vector<Linkage::Cluster> clusters) = 0;
-        virtual bool getIndividual(Individual individual) = 0;
+        virtual bool getIndividual(Individual &individual) = 0;
     };
 
 
     template<typename SIZE>
     class FixedSizeGA : public GABase{
-        
+
     };
 
 

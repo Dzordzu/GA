@@ -195,6 +195,18 @@ TEST(CrossoverTest, LinkageCrossover) {
      */
 }
 
+TEST(ProbabilityTest, Mutation) {
+
+    RecordProperty("description", "It should fail sometimes");
+
+    Genotype::Genotype genotype({0,0,0,0,0});
+    Genotype::StandardMutation mutation;
+
+    mutation.setTarget(genotype);
+    mutation.mutate();
+    EXPECT_NE(mutation.getResult(), genotype);
+}
+
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
