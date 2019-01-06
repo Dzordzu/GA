@@ -80,6 +80,7 @@ namespace Linkage {
         std::vector<Cluster> result;
 
         double reductionFormula(Cluster a, Cluster b);
+        void calculateClusters();
 
     public:
         void calculate(std::vector<Genotype::Genotype> &genotypes);

@@ -158,9 +158,73 @@ namespace Linkage {
                 distanceMeasure.insert(x, y, cell);
             }
         }
+        calculateClusters();
+    }
 
+    void Algorithm::calculateClusters() {
 
+        // Vector distIndex->distMaxValue
+        // NOTE: Using lambda (C++11)
+        std::vector<std::pair<size_t, double>> queue = distanceMeasure.getMinimums();
+        std::sort(queue.begin(), queue.end(), [](std::pair<size_t, double> a, std::pair<size_t, double> b) {
+            return a.second < b.second;
+        });
 
+        std::vector<Linkage::Cluster> leaves{};
+
+        while (queue.size() > 0) {
+            Linkage::Cluster localMinimum;
+            double localMinimumValue = std::numeric_limits<double>::max();
+            bool removeTwo = false;
+            size_t removeIndex;
+
+            for (size_t i = 0; i < leaves.size(); i++) {
+
+                Cluster basic({ queue[0].first }, Cluster::Type::SINGLE);
+                double value = reductionFormula(leaves[i], basic);
+
+                if (value < localMinimumValue) {
+                    std::vector<size_t> mask = leaves[i].getMask();
+                    mask.emplace_back(basic.getMask()[0]);
+                    localMinimum = Cluster(mask);
+                    localMinimumValue = value;
+                    removeIndex = i;
+                }
+            }
+
+            for (size_t i = 1; i < queue.size(); i++) {
+                /*
+                    Positions in distanceMeasure matrix
+                */
+                size_t x = queue[0].first;
+                size_t y = queue[i].first;
+
+                double value; distanceMeasure.get(x, y, value);
+
+                if (value < localMinimumValue) {
+                    localMinimum = Cluster({ x, y });
+                    localMinimumValue = value;
+                    removeTwo = true;
+                    removeIndex = i;
+                }
+            }
+
+            if(removeTwo) queue.erase(queue.begin() + removeIndex);
+            else leaves.erase(leaves.begin() + removeIndex);
+            queue.erase(queue.begin());
+
+            result.emplace_back(localMinimum);
+            leaves.emplace_back(localMinimum);
+
+        }
+
+        for (size_t i = 0; i < distanceMeasure.getSize(); i++) {
+            result.emplace_back(Linkage::Cluster({i}));
+        }
+
+        std::sort(result.begin(), result.end(), [](Linkage::Cluster a, Linkage::Cluster b) {
+            return a.getMask().size() < b.getMask().size();
+        });
 
     }
 };
