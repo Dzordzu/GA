@@ -108,6 +108,13 @@ TEST(LinkageTest, Algorithm) {
     Linkage::Algorithm algo;
     algo.calculate(genotypes_9);
 
+//    for(Cluster &c : algo.getClusters()) {
+//        std::cout<<std::endl<<std::endl<<"Mask: ";
+//        for(size_t m : c.getMask()) {
+//            std::cout<<m<<" ";
+//        }
+//    }
+
     EXPECT_THAT(algo.getClusters(), testing::ElementsAre(
             Cluster({1}),
             Cluster({2}),
