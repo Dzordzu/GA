@@ -22,7 +22,7 @@ namespace Genotype {
         Genotype();
         explicit Genotype(std::vector<int> genes);
         std::vector<int> getGenesCopy();
-
+        const bool operator==(const Genotype& g) const;
     };
 
 

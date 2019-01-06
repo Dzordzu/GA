@@ -246,6 +246,6 @@ namespace Genotype {
         result.emplace_back(Genotype(mother));
         currentClusterIndex++;
         if(currentClusterIndex >= clusters.size()) finished = true;
-
+        return true;
     }
 }

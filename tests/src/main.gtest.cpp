@@ -156,6 +156,40 @@ TEST(CrossoverTest, StandardCrossover) {
 
 TEST(CrossoverTest, LinkageCrossover) {
 
+    Genotype::Genotype p1({0,0,0,0,0}), p2({1,1,1,1,1});
+    std::vector<Linkage::Cluster> single_cluster = {
+            Linkage::Cluster({1, 3, 4}, Linkage::Cluster::Type::MULTIPLE)
+    };
+    std::vector<Linkage::Cluster> cluster_2 = {
+            Linkage::Cluster({1, 2, 0}),
+            Linkage::Cluster({0, 5})
+    };
+
+
+    Genotype::LinkageStandardCrossover crossover;
+    crossover.addParent(p1);
+    crossover.addParent(p2);
+    ASSERT_TRUE(crossover.calculate());
+
+    std::vector<Genotype::Genotype> result = crossover.getResult();
+
+    std::vector<int> expected0 = {0, 0, 1, 1, 1};
+    std::vector<int> expected1 = {1, 1, 0, 0, 0};
+
+    for(int i=0; i<2; i++) {
+        std::vector<int> given = result[i].getGenesCopy();
+        EXPECT_THAT(given, testing::AnyOf(expected0, expected1));
+    }
+
+    crossover.clear();
+    EXPECT_TRUE(crossover.getResult().empty());
+
+    crossover.addClusters(single_cluster);
+    EXPECT_FALSE(crossover.isFinished());
+    EXPECT_TRUE(crossover.nextCalculation());
+    EXPECT_TRUE(crossover.isFinished());
+    EXPECT_EQ(crossover.getResult()[0], Genotype::Genotype({0, 1, 0, 1, 1}));
+
 }
 
 int main(int argc, char **argv) {

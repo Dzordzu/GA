@@ -17,6 +17,14 @@ namespace Genotype {
         return genes;
     }
 
+    const bool Genotype::operator==(const Genotype &g) const{
+        if(genes.size() != g.genes.size()) return false;
+        for(size_t i=0; i< genes.size(); i++)
+            if (genes[i] != g.genes[i]) return false;
+
+        return true;
+    }
+
     std::vector<Genotype> Crossover::getResult() {
         return result;
     }
