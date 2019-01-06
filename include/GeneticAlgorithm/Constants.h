@@ -5,6 +5,9 @@
 #ifndef GENETIC_ALGORITHM_CONSTANTS_H
 #define GENETIC_ALGORITHM_CONSTANTS_H
 
+#include <cstdint>
+#include <cstddef>
+
 namespace GeneticAlgorithms {
     namespace Constants {
 
