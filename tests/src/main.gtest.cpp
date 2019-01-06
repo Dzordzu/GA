@@ -190,6 +190,9 @@ TEST(CrossoverTest, LinkageCrossover) {
     EXPECT_TRUE(crossover.isFinished());
     EXPECT_EQ(crossover.getResult()[0], Genotype::Genotype({0, 1, 0, 1, 1}));
 
+    /*
+     * Finish test. I've just raped TDD
+     */
 }
 
 int main(int argc, char **argv) {
