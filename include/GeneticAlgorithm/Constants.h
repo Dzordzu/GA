@@ -26,12 +26,12 @@ namespace GeneticAlgorithms {
         }
 
         namespace Probability {
-            const double MUTATION = 0.5;
+            const double MUTATION = 0.1;
             const double MUTATION_SINGLE_GENE = 0.1;
             const double LINKIN_TREE_GENERATION = 0.2;
             const double P3_FEEDBACK = 0.01;
 
-            const double CROSSOVER_STANDARD = 0.5;
+            const double CROSSOVER_STANDARD = 0.1;
             const double CROSSOVER_HARD = CROSSOVER_STANDARD * 2;
         }
 

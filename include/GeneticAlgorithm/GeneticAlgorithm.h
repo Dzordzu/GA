@@ -11,7 +11,6 @@
 #include "Utils.h"
 #include <array>
 #include <vector>
-#include <iostream>
 
 namespace GeneticAlgorithms {
 
@@ -86,29 +85,6 @@ namespace GeneticAlgorithms {
 
         void LTG();
         void Crossover();
-        int iterations = 0;
-        void showGenotype(Genotype::Genotype g) {
-            std::cout<<"Individual: ";
-            for(size_t i : g.getGenesCopy()) std::cout<<i;
-            std::cout<<std::endl;
-        }
-        void showPopulation() {
-            std::cout<<"Population: "<<std::endl;
-            for(Individual &i : population) {
-                showGenotype(i.getGenotype());
-            }
-        }
-        void showClusters() {
-            std::cout<<"Clusters: "<<std::endl;
-            for(Linkage::Cluster &c : clusters) {
-                std::cout<<"Cluster: ";
-                for(size_t i : c.getMask()) {
-                    std::cout<<i<<", ";
-                }
-                std::cout<<std::endl;
-            }
-            std::cout<<std::endl;
-        }
 
     public:
         inline explicit FixedSizeGA(Evaluator& evaluator) : GABase(evaluator) {populate();};
@@ -143,9 +119,6 @@ namespace GeneticAlgorithms {
     template<size_t SIZE>
     bool FixedSizeGA<SIZE>::iterate() {
 
-        std::cout<<"Iteration "<<iterations++<<std::endl;
-        showPopulation();
-
         if(Utils::getRandomPercentage() < Constants::Probability::LINKIN_TREE_GENERATION) {
             LTG();
         }
@@ -170,7 +143,6 @@ namespace GeneticAlgorithms {
     template<size_t SIZE>
     void FixedSizeGA<SIZE>::LTG() {
         linkageAlgorithm.clearResult();
-        std::cout<<"Started LTG"<<std::endl;
 
         std::vector<Genotype::Genotype> genotypes_temp;
         for(size_t i = 0; i<population.size(); i++) {
@@ -179,7 +151,6 @@ namespace GeneticAlgorithms {
 
         linkageAlgorithm.calculate(genotypes_temp);
         this->setClusters(linkageAlgorithm.getClusters());
-        showClusters();
     }
 
     template<size_t SIZE>
@@ -201,26 +172,18 @@ namespace GeneticAlgorithms {
 
         this->linkageStandardCrossover.setClusters(this->clusters);
         if(!this->linkageStandardCrossover.isFinished()) {
-            std::cout<<"Started going through linkage. with clusters in amount of: "<<clusters.size()<<std::endl;
 
             size_t index_i = 0;
 
             while(this->linkageStandardCrossover.nextCalculation() && !clusters.empty()) {
                 Individual result(evaluator, this->linkageStandardCrossover.getResult()[index_i++]);
 
-                std::cout<<"-------------\nParents: "<<std::endl;
-                showGenotype(population[parents[0]].getGenotype());
-                showGenotype(population[parents[1]].getGenotype());
-                std::cout<<"RESULT: ";showGenotype(result.getGenotype());
-
                 if(result.getFitness() > population[parents[0]].getFitness()) {
-                    std::cout<<"better...";
                     population[parents[0]] = result;
                     findMax(result);
                     break;
                 }
                 else if(result.getFitness() > population[parents[1]].getFitness()) {
-                    std::cout<<"better";
                     population[parents[1]] = result;
                     findMax(result);
                     break;
