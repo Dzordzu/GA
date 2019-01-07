@@ -84,6 +84,7 @@ namespace Linkage {
 
     public:
         void calculate(std::vector<Genotype::Genotype> &genotypes);
+        void clear();
         inline std::vector<Linkage::Cluster> getClusters() { return result; };
     };
 

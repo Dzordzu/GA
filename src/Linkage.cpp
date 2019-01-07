@@ -227,6 +227,10 @@ namespace Linkage {
         });
 
     }
+
+    void Algorithm::clear() {
+        result.clear();
+    }
 };
 
 namespace Genotype {
