@@ -222,8 +222,8 @@ TEST(ProbabilityTest, Mutation) {
 
 class MyEvaluator : public GeneticAlgorithms::Evaluator {
 public:
-    inline size_t getGenotypeSize() override{return 1000;}
-    inline double getMaxFitness() override {return 1000;}
+    inline size_t getGenotypeSize() override{return 100;}
+    inline double getMaxFitness() override {return 100;}
     inline double evaluate(Genotype::Genotype &genotype) override{
         int fitness = 0;
         for(size_t i : genotype.getGenesCopy())  {
@@ -241,9 +241,9 @@ TEST(Manual, Manual) {
 
     double bestFitness = 0;
 
-    for(int i=0; i<10; i++) {
+    for(int i=0; i<1000; i++) {
         algo.iterate();
-        algo2.iterate();
+        //algo2.iterate();
 
         bestFitness = std::max(algo.getBestFitness(), bestFitness);
         bestFitness = std::max(algo2.getBestFitness(), bestFitness);

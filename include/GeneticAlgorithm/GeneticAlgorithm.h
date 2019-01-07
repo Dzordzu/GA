@@ -11,6 +11,7 @@
 #include "Utils.h"
 #include <array>
 #include <vector>
+#include <set>
 
 namespace GeneticAlgorithms {
 
@@ -48,7 +49,13 @@ namespace GeneticAlgorithms {
         inline double getFitness() const {return fitness;};
         inline Evaluator & getEvaluator() {return *evaluator;}
         inline Genotype::Genotype getGenotype() {return genotype;}
+
+        bool operator<(const Individual &rhs) const {return fitness < rhs.fitness;}
+        bool operator>(const Individual &rhs) const {return rhs < *this;}
+        bool operator<=(const Individual &rhs) const {return !(rhs < *this);}
+        bool operator>=(const Individual &rhs) const {return !(*this < rhs);}
     };
+
 
     class GABase {
     protected:
@@ -70,21 +77,35 @@ namespace GeneticAlgorithms {
     };
 
 
+
     template<std::size_t SIZE>
     class FixedSizeGA : public GABase {
-        std::array<Individual, SIZE> population;
-        Linkage::Algorithm linkageAlgorithm;
-        std::vector<Linkage::Cluster> clusters;
-        Genotype::LinkageStandardCrossover linkageStandardCrossover;
-        Genotype::StandardMutation mutation;
 
-        void findMax(Individual &i) {
-            this->bestIndividual = i.getFitness() > this->bestIndividual.getFitness() ? i : bestIndividual;
+        std::set<Individual> linkageSet;
+        std::vector<Linkage::Cluster> clusters;
+        Linkage::Algorithm linkageAlgorithm;
+
+        std::array<Individual, SIZE> population;
+        Genotype::StandardMutation mutation;
+        Genotype::LinkageStandardCrossover linkageStandardCrossover;
+
+        void addToLinkageSet(Individual &i) {
+            linkageSet.insert(i);
+            if(linkageSet.size() > 20) linkageSet.erase(linkageSet.begin());
+        }
+
+        inline bool findMax(Individual &i) {
+            if(i.getFitness() < this->bestIndividual.getFitness()) return false;
+            this->bestIndividual = i;
             bestFitness = bestIndividual.getFitness();
+
+            addToLinkageSet(i);
+            return true;
         }
 
         void LTG();
         void Crossover();
+
 
     public:
         inline explicit FixedSizeGA(Evaluator& evaluator) : GABase(evaluator) {populate();};
@@ -145,7 +166,7 @@ namespace GeneticAlgorithms {
         linkageAlgorithm.clearResult();
 
         std::vector<Genotype::Genotype> genotypes_temp;
-        for(size_t i = 0; i<population.size(); i++) {
+        for(size_t i = 0; i<linkageSet.size(); i++) {
             genotypes_temp.emplace_back(population[i].getGenotype());
         }
 

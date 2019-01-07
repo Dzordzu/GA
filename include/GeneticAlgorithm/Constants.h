@@ -37,6 +37,7 @@ namespace GeneticAlgorithms {
 
         namespace Amounts {
             const size_t CROSSOVERS_MAX = 100;
+            const size_t CHECK_FREQUENCY = 15;
         }
 
 
