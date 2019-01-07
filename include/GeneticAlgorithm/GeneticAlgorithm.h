@@ -59,8 +59,9 @@ namespace GeneticAlgorithms {
 
         virtual bool iterate() = 0;
         virtual bool populate() = 0;
-        virtual bool addClusters(std::vector<Linkage::Cluster> clusters) = 0;
-        virtual bool addIndividual(Individual individual) = 0;
+        virtual bool addCluster(Linkage::Cluster &cluster) = 0;
+        virtual bool replaceClusters(std::vector<Linkage::Cluster> clusters) = 0;
+        virtual bool addIndividual(Individual &individual) = 0;
 
         inline double getBestFitness() const { return bestFitness; }
         inline Individual& getBestIndividual() { return bestIndividual; }
@@ -72,13 +73,15 @@ namespace GeneticAlgorithms {
     class FixedSizeGA : public GABase {
         std::array<Individual, SIZE> population;
         Linkage::Algorithm linkageAlgorithm;
+        std::vector<Linkage::Cluster> clusters;
 
     public:
         inline FixedSizeGA() {populate();};
         bool populate() override;
         bool iterate() override;
-        bool addCluster(std::vector<Linkage::Cluster> clusters);
-        bool addIndividual(Individual &individual);
+        inline bool addCluster(Linkage::Cluster &cluster) override { clusters.emplace_back(cluster); return true;}
+        inline bool replaceClusters(std::vector<Linkage::Cluster> clusters) override {this->clusters = clusters; return true;}
+        bool addIndividual(Individual &individual) override {return false;};
     };
 
 
@@ -97,6 +100,11 @@ namespace GeneticAlgorithms {
             population[i] = Individual(evaluator, Utils::getRandomGenotype(evaluator.getGenotypeSize()));
         }
         return true;
+    }
+
+    template<size_t SIZE>
+    bool FixedSizeGA<SIZE>::iterate() {
+
     }
 
 
