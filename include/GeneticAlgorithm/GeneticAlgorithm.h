@@ -11,6 +11,7 @@
 #include "Utils.h"
 #include <array>
 #include <vector>
+#include <iostream>
 
 namespace GeneticAlgorithms {
 
@@ -83,6 +84,32 @@ namespace GeneticAlgorithms {
             bestFitness = bestIndividual.getFitness();
         }
 
+        void LTG();
+        void Crossover();
+        int iterations = 0;
+        void showGenotype(Genotype::Genotype g) {
+            std::cout<<"Individual: ";
+            for(size_t i : g.getGenesCopy()) std::cout<<i;
+            std::cout<<std::endl;
+        }
+        void showPopulation() {
+            std::cout<<"Population: "<<std::endl;
+            for(Individual &i : population) {
+                showGenotype(i.getGenotype());
+            }
+        }
+        void showClusters() {
+            std::cout<<"Clusters: "<<std::endl;
+            for(Linkage::Cluster &c : clusters) {
+                std::cout<<"Cluster: ";
+                for(size_t i : c.getMask()) {
+                    std::cout<<i<<", ";
+                }
+                std::cout<<std::endl;
+            }
+            std::cout<<std::endl;
+        }
+
     public:
         inline explicit FixedSizeGA(Evaluator& evaluator) : GABase(evaluator) {populate();};
         bool populate() override;
@@ -107,50 +134,25 @@ namespace GeneticAlgorithms {
         for(size_t i=0; i<SIZE; i++) {
             Genotype::Genotype genotype = Utils::getRandomGenotype(evaluator.getGenotypeSize());
             population[i] = Individual(evaluator, genotype);
+            findMax(population[i]);
         }
+        LTG();
         return true;
     }
 
     template<size_t SIZE>
     bool FixedSizeGA<SIZE>::iterate() {
 
+        std::cout<<"Iteration "<<iterations++<<std::endl;
+        showPopulation();
+
         if(Utils::getRandomPercentage() < Constants::Probability::LINKIN_TREE_GENERATION) {
-            linkageAlgorithm.clearResult();
-
-            std::vector<Genotype::Genotype> genotypes_temp;
-            for(size_t i = 0; i<population.size(); i++) {
-                genotypes_temp.emplace_back(population[i].getGenotype());
-            }
-
-            linkageAlgorithm.calculate(genotypes_temp);
-            this->setClusters(linkageAlgorithm.getClusters());
+            LTG();
         }
 
         for(size_t i=0; i<SIZE/2; i++) {
             if(Utils::getRandomPercentage() < Constants::Probability::CROSSOVER_STANDARD) {
-
-                std::array<size_t, 2> parents = {0,1};
-                for(int j=0; j<4; j++) {
-                    for(int k=0; k<2; k++) {
-                        size_t random = Utils::getRandomSize(SIZE-1);
-                        parents[k] = population[parents[k]].getFitness() < population[random].getFitness() ? random : parents[k];
-                    }
-                }
-
-                this->linkageStandardCrossover.clear();
-                this->linkageStandardCrossover.addParent(population[parents[0]].getGenotype(), Genotype::LinkageStandardCrossover::ParentType::PRIMARY);
-                this->linkageStandardCrossover.addParent(population[parents[1]].getGenotype(), Genotype::LinkageStandardCrossover::ParentType::SECONDARY);
-
-                this->linkageStandardCrossover.setClusters(this->clusters);
-                if(!this->linkageStandardCrossover.isFinished()) {
-                    while(this->linkageStandardCrossover.nextCalculation()) {
-                        Individual result(evaluator, this->linkageStandardCrossover.getResult()[0]);
-                        if(result.getFitness() > population[parents[0]].getFitness()) population[parents[0]] = result;
-                        else if(result.getFitness() > population[parents[1]].getFitness()) population[parents[1]] = result;
-                    }
-                }
-
-
+                Crossover();
             }
         }
 
@@ -159,9 +161,74 @@ namespace GeneticAlgorithms {
                 mutation.setTarget(population[i].getGenotype());
                 mutation.mutate();
                 population[i] = Individual(evaluator, mutation.getResult());
+                findMax(population[i]);
             }
         }
         return true;
+    }
+
+    template<size_t SIZE>
+    void FixedSizeGA<SIZE>::LTG() {
+        linkageAlgorithm.clearResult();
+        std::cout<<"Started LTG"<<std::endl;
+
+        std::vector<Genotype::Genotype> genotypes_temp;
+        for(size_t i = 0; i<population.size(); i++) {
+            genotypes_temp.emplace_back(population[i].getGenotype());
+        }
+
+        linkageAlgorithm.calculate(genotypes_temp);
+        this->setClusters(linkageAlgorithm.getClusters());
+        showClusters();
+    }
+
+    template<size_t SIZE>
+    void FixedSizeGA<SIZE>::Crossover() {
+        //std::cout<<"Started crossover"<<std::endl;
+
+        std::array<size_t, 2> parents = {0,1};
+        for(int j=0; j<4; j++) {
+            for(int k=0; k<2; k++) {
+                size_t random = Utils::getRandomSize(SIZE-1);
+                parents[k] = population[parents[k]].getFitness() < population[random].getFitness() ? random : parents[k];
+            }
+        }
+
+        this->linkageStandardCrossover.clear();
+        this->linkageStandardCrossover.restartLooping();
+        this->linkageStandardCrossover.addParent(population[parents[0]].getGenotype(), Genotype::LinkageStandardCrossover::ParentType::PRIMARY);
+        this->linkageStandardCrossover.addParent(population[parents[1]].getGenotype(), Genotype::LinkageStandardCrossover::ParentType::SECONDARY);
+
+        this->linkageStandardCrossover.setClusters(this->clusters);
+        if(!this->linkageStandardCrossover.isFinished()) {
+            std::cout<<"Started going through linkage. with clusters in amount of: "<<clusters.size()<<std::endl;
+
+            size_t index_i = 0;
+
+            while(this->linkageStandardCrossover.nextCalculation() && !clusters.empty()) {
+                Individual result(evaluator, this->linkageStandardCrossover.getResult()[index_i++]);
+
+                std::cout<<"-------------\nParents: "<<std::endl;
+                showGenotype(population[parents[0]].getGenotype());
+                showGenotype(population[parents[1]].getGenotype());
+                std::cout<<"RESULT: ";showGenotype(result.getGenotype());
+
+                if(result.getFitness() > population[parents[0]].getFitness()) {
+                    std::cout<<"better...";
+                    population[parents[0]] = result;
+                    findMax(result);
+                    break;
+                }
+                else if(result.getFitness() > population[parents[1]].getFitness()) {
+                    std::cout<<"better";
+                    population[parents[1]] = result;
+                    findMax(result);
+                    break;
+                }
+            }
+        }
+
+        //std::cout<<"Finished crossover"<<std::endl;
     }
 
 

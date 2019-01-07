@@ -103,7 +103,7 @@ namespace Genotype {
         inline bool calculate() override {return nextCalculation();}
         bool nextCalculation();
         inline bool isFinished() { return finished; }
-        inline void restartClusters() {currentClusterIndex = 0;finished = false;}
+        inline void restartLooping() {currentClusterIndex = 0;finished = false;}
     };
 };
 

@@ -162,7 +162,7 @@ TEST(CrossoverTest, LinkageCrossover) {
     };
     std::vector<Linkage::Cluster> cluster_2 = {
             Linkage::Cluster({1, 2, 0}),
-            Linkage::Cluster({0, 5})
+            Linkage::Cluster({0, 4})
     };
 
 
@@ -189,6 +189,19 @@ TEST(CrossoverTest, LinkageCrossover) {
     EXPECT_TRUE(crossover.nextCalculation());
     EXPECT_TRUE(crossover.isFinished());
     EXPECT_EQ(crossover.getResult()[0], Genotype::Genotype({0, 1, 0, 1, 1}));
+    EXPECT_FALSE(crossover.nextCalculation());
+
+    crossover.clear();
+    crossover.setClusters(cluster_2);
+    crossover.restartLooping();
+
+    EXPECT_FALSE(crossover.isFinished());
+    EXPECT_TRUE(crossover.calculate());
+    EXPECT_EQ(crossover.getResult()[0], Genotype::Genotype({1,1,1,0,0}));
+    EXPECT_TRUE(crossover.nextCalculation());
+    EXPECT_EQ(crossover.getResult()[1], Genotype::Genotype({1, 0, 0, 0, 1}));
+
+
 
     /*
      * Finish test. I've just raped TDD
@@ -209,8 +222,8 @@ TEST(ProbabilityTest, Mutation) {
 
 class MyEvaluator : public GeneticAlgorithms::Evaluator {
 public:
-    inline size_t getGenotypeSize() override{return 10;}
-    inline double getMaxFitness() override {return 10;}
+    inline size_t getGenotypeSize() override{return 100;}
+    inline double getMaxFitness() override {return 100;}
     inline double evaluate(Genotype::Genotype &genotype) override{
         int fitness = 0;
         for(size_t i : genotype.getGenesCopy())  {
@@ -223,8 +236,17 @@ public:
 TEST(Manual, Manual) {
     MyEvaluator myEvaluator;
 
-    GeneticAlgorithms::FixedSizeGA<30> algo(myEvaluator);
-    algo.iterate();
+    GeneticAlgorithms::FixedSizeGA<50> algo(myEvaluator);
+
+
+    for(int i=0; i<1000; i++) {
+        algo.iterate();
+        //std::cout<<algo.getBestFitness()<<std::endl;
+        if(algo.getBestFitness() == myEvaluator.getMaxFitness()) break;
+    }
+
+    std::cout<<algo.getBestFitness();
+
 
 
 }
