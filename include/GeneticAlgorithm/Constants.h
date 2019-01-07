@@ -35,9 +35,16 @@ namespace GeneticAlgorithms {
             const double CROSSOVER_HARD = CROSSOVER_STANDARD * 2;
         }
 
-        namespace Amounts {
-            const size_t CROSSOVERS_MAX = 100;
-            const size_t CHECK_FREQUENCY = 15;
+        namespace GA_MANAGER {
+            const double STAGNATION_LIMIT = 0.1;
+            const double CHECK_FREQUENCY = 20;
+
+            namespace PROPORTIONS {
+                const double LINKAGE_TRANSFER = 30;
+                const double INDIVIDUALS_TRANSFER = 30;
+                const double DISABLE = 10;
+                const double REMOVE = 1;
+            }
         }
 
 
