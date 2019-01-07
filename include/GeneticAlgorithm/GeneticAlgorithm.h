@@ -14,7 +14,6 @@
 
 namespace GeneticAlgorithms {
 
-    // TODO: Make an interface, if possible
     class Evaluator {
     public:
         virtual inline bool isEmpty() {return false;}
