@@ -228,7 +228,7 @@ namespace Linkage {
 
     }
 
-    void Algorithm::clear() {
+    void Algorithm::clearResult() {
         result.clear();
     }
 };

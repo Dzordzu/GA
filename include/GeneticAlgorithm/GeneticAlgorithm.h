@@ -47,6 +47,7 @@ namespace GeneticAlgorithms {
 
         inline double getFitness() const {return fitness;};
         inline Evaluator & getEvaluator() {return evaluator;}
+        inline Genotype::Genotype getGenotype() {return genotype;}
     };
 
     class GABase {
@@ -75,6 +76,12 @@ namespace GeneticAlgorithms {
         Linkage::Algorithm linkageAlgorithm;
         std::vector<Linkage::Cluster> clusters;
         Genotype::LinkageStandardCrossover linkageStandardCrossover;
+        Genotype::StandardMutation mutation;
+
+        void findMax(Individual &i) {
+            this->bestIndividual = i.getFitness() > this->bestIndividual.getFitness() ? i : bestIndividual;
+            bestFitness = bestIndividual.getFitness();
+        }
 
     public:
         inline FixedSizeGA() {populate();};
@@ -107,7 +114,7 @@ namespace GeneticAlgorithms {
     bool FixedSizeGA<SIZE>::iterate() {
 
         if(Utils::getRandomPercentage() < Constants::Probability::LINKIN_TREE_GENERATION) {
-            linkageAlgorithm.clear();
+            linkageAlgorithm.clearResult();
             linkageAlgorithm.calculate(population);
             this->setClusters(linkageAlgorithm.getClusters());
         }
@@ -115,11 +122,39 @@ namespace GeneticAlgorithms {
         for(size_t i=0; i<SIZE/2; i++) {
             if(Utils::getRandomPercentage() < Constants::Probability::CROSSOVER_STANDARD) {
 
+                std::array<size_t, 2> parents = {0,1};
+                for(int j=0; j<4; j++) {
+                    for(int k=0; k<2; k++) {
+                        size_t random = Utils::getRandomSize(SIZE-1);
+                        parents[k] = population[parents[k]].getFitness() < population[random].getFitness() ? random : parents[k];
+                    }
+                }
 
+                this->linkageStandardCrossover.clear();
+                this->linkageStandardCrossover.addParent(population[parents[0]].getGenotype(), Genotype::LinkageStandardCrossover::ParentType::PRIMARY);
+                this->linkageStandardCrossover.addParent(population[parents[1]].getGenotype(), Genotype::LinkageStandardCrossover::ParentType::SECONDARY);
+
+                this->linkageStandardCrossover.setClusters(this->clusters);
+                if(!this->linkageStandardCrossover.isFinished()) {
+                    while(this->linkageStandardCrossover.nextCalculation()) {
+                        Individual result(evaluator, this->linkageStandardCrossover.getResult());
+                        if(result.getFitness() > population[parents[0]].getFitness()) population[parents[0]] = result;
+                        else if(result.getFitness() > population[parents[1]].getFitness()) population[parents[1]] = result;
+                    }
+                }
 
 
             }
         }
+
+        for(size_t i=0; i<SIZE; i++) {
+            if(Utils::getRandomPercentage() < Constants::Probability::MUTATION) {
+                mutation.setTarget(population[i].getGenotype());
+                mutation.mutate();
+                population[i] = Individual(evaluator, mutation.getResult());
+            }
+        }
+        return true;
     }
 
 
