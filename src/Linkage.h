@@ -99,7 +99,7 @@ namespace Genotype {
         bool finished;
     public:
         inline LinkageStandardCrossover() : StandardCrossover() {currentClusterIndex = 0; finished = false;};
-        inline void addClusters(std::vector<Linkage::Cluster>& clusters) {this->clusters = clusters;}
+        inline void setClusters(std::vector<Linkage::Cluster> &clusters) {this->clusters = clusters;}
         inline bool calculate() override {return nextCalculation();}
         bool nextCalculation();
         inline bool isFinished() { return finished; }

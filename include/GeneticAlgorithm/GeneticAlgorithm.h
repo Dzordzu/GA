@@ -74,6 +74,7 @@ namespace GeneticAlgorithms {
         std::array<Individual, SIZE> population;
         Linkage::Algorithm linkageAlgorithm;
         std::vector<Linkage::Cluster> clusters;
+        Genotype::LinkageStandardCrossover linkageStandardCrossover;
 
     public:
         inline FixedSizeGA() {populate();};
@@ -105,6 +106,20 @@ namespace GeneticAlgorithms {
     template<size_t SIZE>
     bool FixedSizeGA<SIZE>::iterate() {
 
+        if(Utils::getRandomPercentage() < Constants::Probability::LINKIN_TREE_GENERATION) {
+            linkageAlgorithm.clear();
+            linkageAlgorithm.calculate(population);
+            this->replaceClusters(linkageAlgorithm.getClusters());
+        }
+
+        for(size_t i=0; i<SIZE/2; i++) {
+            if(Utils::getRandomPercentage() < Constants::Probability::CROSSOVER_STANDARD) {
+
+                
+
+
+            }
+        }
     }
 
 

@@ -184,7 +184,7 @@ TEST(CrossoverTest, LinkageCrossover) {
     crossover.clear();
     EXPECT_TRUE(crossover.getResult().empty());
 
-    crossover.addClusters(single_cluster);
+    crossover.setClusters(single_cluster);
     EXPECT_FALSE(crossover.isFinished());
     EXPECT_TRUE(crossover.nextCalculation());
     EXPECT_TRUE(crossover.isFinished());
