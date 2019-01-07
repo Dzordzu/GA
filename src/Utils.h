@@ -10,7 +10,7 @@
 
 namespace GeneticAlgorithms {
 
-    struct Utils {
+    namespace Utils {
         inline static double getRandomPercentage() {
             std::random_device rd;
             std::mt19937 gen(rd());
@@ -18,11 +18,19 @@ namespace GeneticAlgorithms {
 
             return dis(gen);
         }
+
+        inline static bool getRandomBool() {
+            std::random_device rd;
+            std::mt19937 gen(rd());
+            std::uniform_int_distribution<int> dis(0, 1);
+
+            return (bool)dis(gen);
+        }
     };
 
 
 
 
-}
+};
 
 #endif //GENETIC_ALGORITHM_UTILS_H

@@ -9,32 +9,96 @@
 #include "Genotype.h"
 #include "Linkage.h"
 #include "Utils.h"
+#include <array>
+#include <vector>
 
 namespace GeneticAlgorithms {
+
+    // TODO: Make an interface, if possible
+    class Evaluator {
+    public:
+        virtual inline bool isEmpty() {return false;}
+        virtual size_t getGenotypeSize() = 0;
+        virtual double getMaxFitness() = 0;
+        virtual double evaluate(Genotype::Genotype &genotype) = 0;
+    };
+
+    class EmptyEvaluator : public Evaluator{
+        inline bool isEmpty() final {return true;}
+        inline size_t getGenotypeSize() override { return 0;}
+        inline double getMaxFitness() override { return 0; }
+        inline double evaluate(Genotype::Genotype &genotype) override { return 0; }
+    };
+
+    EmptyEvaluator EMPTY_EVALUATOR;
+
+
 
     class Individual {
     protected:
         Genotype::Genotype genotype;
+        double fitness;
+        Evaluator& evaluator;
     public:
-        virtual double getFitness() = 0;
+        inline Individual() : evaluator(EMPTY_EVALUATOR) { fitness = evaluator.evaluate(genotype); }
+        inline Individual(Evaluator &evaluator, Genotype::Genotype &genotype) : evaluator(evaluator) {
+            this->genotype = genotype;
+            fitness = evaluator.evaluate(this->genotype);
+        }
+
+        inline double getFitness() const {return fitness;};
+        inline Evaluator & getEvaluator() {return evaluator;}
     };
 
     class GABase {
     protected:
-        double fitness;
-        Individual * individual;
+        Evaluator& evaluator;
+        double bestFitness;
+        Individual bestIndividual;
     public:
+        inline explicit GABase(Evaluator &evaluator) : evaluator(evaluator) {}
+
         virtual bool iterate() = 0;
         virtual bool populate() = 0;
-        virtual bool getClusters(std::vector<Linkage::Cluster> clusters) = 0;
-        virtual bool getIndividual(Individual &individual) = 0;
+        virtual bool addClusters(std::vector<Linkage::Cluster> clusters) = 0;
+        virtual bool addIndividual(Individual individual) = 0;
+
+        inline double getBestFitness() const { return bestFitness; }
+        inline Individual& getBestIndividual() { return bestIndividual; }
+
+    };
+
+
+    template<std::size_t SIZE>
+    class FixedSizeGA : public GABase {
+        std::array<Individual, SIZE> population;
+        Linkage::Algorithm linkageAlgorithm;
+
+    public:
+        inline FixedSizeGA() {populate();};
+        bool populate() override;
+        bool iterate() override;
+        bool addCluster(std::vector<Linkage::Cluster> clusters);
+        bool addIndividual(Individual &individual);
     };
 
 
-    template<typename SIZE>
-    class FixedSizeGA : public GABase{
 
-    };
+
+
+
+
+
+
+
+
+    template<size_t SIZE>
+    bool FixedSizeGA<SIZE>::populate() {
+        for(size_t i=0; i<SIZE; i++) {
+            population[i] = Individual(evaluator, Utils::getRandomGenotype(evaluator.getGenotypeSize()));
+        }
+        return true;
+    }
 
 
 };

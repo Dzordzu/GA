@@ -88,4 +88,18 @@ namespace Genotype {
 };
 
 
+namespace GeneticAlgorithms {
+    namespace Utils {
+        inline static Genotype::Genotype getRandomGenotype(size_t length) {
+            std::vector<int> genotype;
+            genotype.resize(length);
+            for(size_t i=0; i<length; i++) {
+                genotype[i] = getRandomBool();
+            }
+            return Genotype::Genotype(genotype);
+        }
+    };
+};
+
+
 #endif //GENETIC_ALGORITHM_GENOTYPE_H
