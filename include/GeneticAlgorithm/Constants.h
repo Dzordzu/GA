@@ -17,12 +17,12 @@ namespace GeneticAlgorithms {
         }
 
         namespace Population {
-            const size_t TINY = 200;
-            const size_t SMALL = 400;
-            const size_t NORMAL = 500;
-            const size_t BIG = 1000;
-            const size_t HUGE = 1500;
-            const size_t ENORMOUS = 3000;
+            const size_t TINY = 20;
+            const size_t SMALL = 40;
+            const size_t NORMAL = 50;
+            const size_t BIG = 100;
+            const size_t HUGE = 150;
+            const size_t ENORMOUS = 500;
         }
 
         namespace Probability {
