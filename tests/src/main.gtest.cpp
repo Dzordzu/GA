@@ -236,8 +236,8 @@ public:
 TEST(Manual, Manual) {
     MyEvaluator myEvaluator;
 
-    GeneticAlgorithms::FixedSizeGA<50> algo(myEvaluator);
-    GeneticAlgorithms::FixedSizeGA<100> algo2(myEvaluator);
+    GeneticAlgorithms::FixedSizeGA<GeneticAlgorithms::Constants::Population::NORMAL> algo(myEvaluator);
+    //GeneticAlgorithms::FixedSizeGA<100> algo2(myEvaluator);
 
     double bestFitness = 0;
 
@@ -246,7 +246,7 @@ TEST(Manual, Manual) {
         //algo2.iterate();
 
         bestFitness = std::max(algo.getBestFitness(), bestFitness);
-        bestFitness = std::max(algo2.getBestFitness(), bestFitness);
+        //bestFitness = std::max(algo2.getBestFitness(), bestFitness);
 
         //std::cout<<algo.getBestFitness()<<std::endl;
         if(bestFitness == myEvaluator.getMaxFitness()) break;

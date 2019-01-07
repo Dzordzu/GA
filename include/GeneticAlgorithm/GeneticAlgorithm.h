@@ -69,7 +69,7 @@ namespace GeneticAlgorithms {
         virtual bool populate() = 0;
         virtual bool addCluster(Linkage::Cluster &cluster) = 0;
         virtual bool setClusters(std::vector<Linkage::Cluster> clusters) = 0;
-        virtual bool addIndividual(Individual &individual) = 0;
+        virtual bool transferIndividual(Individual &individual) = 0;
 
         inline double getBestFitness() const { return bestFitness; }
         inline Individual& getBestIndividual() { return bestIndividual; }
@@ -113,7 +113,7 @@ namespace GeneticAlgorithms {
         bool iterate() override;
         inline bool addCluster(Linkage::Cluster &cluster) override { clusters.emplace_back(cluster); return true;}
         inline bool setClusters(std::vector<Linkage::Cluster> clusters) override {this->clusters = clusters; return true;}
-        bool addIndividual(Individual &individual) override {return false;};
+        inline bool transferIndividual(Individual &individual) override {return false;};
     };
 
 
