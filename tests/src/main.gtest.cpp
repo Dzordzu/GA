@@ -207,6 +207,28 @@ TEST(ProbabilityTest, Mutation) {
     EXPECT_NE(mutation.getResult(), genotype);
 }
 
+class MyEvaluator : public GeneticAlgorithms::Evaluator {
+public:
+    inline size_t getGenotypeSize() override{return 10;}
+    inline double getMaxFitness() override {return 10;}
+    inline double evaluate(Genotype::Genotype &genotype) override{
+        int fitness = 0;
+        for(size_t i : genotype.getGenesCopy())  {
+            fitness += i;
+        }
+        return fitness;
+    }
+};
+
+TEST(Manual, Manual) {
+    MyEvaluator myEvaluator;
+
+    GeneticAlgorithms::FixedSizeGA<30> algo(myEvaluator);
+    algo.iterate();
+
+
+}
+
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

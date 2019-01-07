@@ -37,16 +37,16 @@ namespace GeneticAlgorithms {
     protected:
         Genotype::Genotype genotype;
         double fitness;
-        Evaluator& evaluator;
+        Evaluator * evaluator;
     public:
-        inline Individual() : evaluator(EMPTY_EVALUATOR) { fitness = evaluator.evaluate(genotype); }
-        inline Individual(Evaluator &evaluator, Genotype::Genotype &genotype) : evaluator(evaluator) {
+        inline Individual() : evaluator(&EMPTY_EVALUATOR) { fitness = evaluator->evaluate(genotype); }
+        inline Individual(Evaluator &evaluator, Genotype::Genotype &genotype) : evaluator(&evaluator) {
             this->genotype = genotype;
             fitness = evaluator.evaluate(this->genotype);
         }
 
         inline double getFitness() const {return fitness;};
-        inline Evaluator & getEvaluator() {return evaluator;}
+        inline Evaluator & getEvaluator() {return *evaluator;}
         inline Genotype::Genotype getGenotype() {return genotype;}
     };
 
@@ -84,7 +84,7 @@ namespace GeneticAlgorithms {
         }
 
     public:
-        inline FixedSizeGA() {populate();};
+        inline explicit FixedSizeGA(Evaluator& evaluator) : GABase(evaluator) {populate();};
         bool populate() override;
         bool iterate() override;
         inline bool addCluster(Linkage::Cluster &cluster) override { clusters.emplace_back(cluster); return true;}
@@ -105,7 +105,8 @@ namespace GeneticAlgorithms {
     template<size_t SIZE>
     bool FixedSizeGA<SIZE>::populate() {
         for(size_t i=0; i<SIZE; i++) {
-            population[i] = Individual(evaluator, Utils::getRandomGenotype(evaluator.getGenotypeSize()));
+            Genotype::Genotype genotype = Utils::getRandomGenotype(evaluator.getGenotypeSize());
+            population[i] = Individual(evaluator, genotype);
         }
         return true;
     }
@@ -115,7 +116,13 @@ namespace GeneticAlgorithms {
 
         if(Utils::getRandomPercentage() < Constants::Probability::LINKIN_TREE_GENERATION) {
             linkageAlgorithm.clearResult();
-            linkageAlgorithm.calculate(population);
+
+            std::vector<Genotype::Genotype> genotypes_temp;
+            for(size_t i = 0; i<population.size(); i++) {
+                genotypes_temp.emplace_back(population[i].getGenotype());
+            }
+
+            linkageAlgorithm.calculate(genotypes_temp);
             this->setClusters(linkageAlgorithm.getClusters());
         }
 
@@ -137,7 +144,7 @@ namespace GeneticAlgorithms {
                 this->linkageStandardCrossover.setClusters(this->clusters);
                 if(!this->linkageStandardCrossover.isFinished()) {
                     while(this->linkageStandardCrossover.nextCalculation()) {
-                        Individual result(evaluator, this->linkageStandardCrossover.getResult());
+                        Individual result(evaluator, this->linkageStandardCrossover.getResult()[0]);
                         if(result.getFitness() > population[parents[0]].getFitness()) population[parents[0]] = result;
                         else if(result.getFitness() > population[parents[1]].getFitness()) population[parents[1]] = result;
                     }
