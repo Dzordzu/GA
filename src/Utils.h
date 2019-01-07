@@ -26,6 +26,14 @@ namespace GeneticAlgorithms {
 
             return (bool)dis(gen);
         }
+
+        inline static size_t getRandomSize(size_t max) {
+            std::random_device rd;
+            std::mt19937 gen(rd());
+            std::uniform_int_distribution<size_t> dis(0, max);
+
+            return dis(gen);
+        }
     };
 
 
