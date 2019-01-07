@@ -118,7 +118,15 @@ namespace GeneticAlgorithms {
 
 
 
+    class GAManager {
 
+        class Algo {
+            size_t stagnation;
+        };
+
+
+
+    };
 
 
 

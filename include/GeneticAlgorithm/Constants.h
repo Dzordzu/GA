@@ -36,8 +36,9 @@ namespace GeneticAlgorithms {
         }
 
         namespace GA_MANAGER {
-            const double STAGNATION_LIMIT = 0.1;
-            const double CHECK_FREQUENCY = 20;
+            const size_t CHECK_FREQUENCY = 15;
+            const size_t STAGNATION_LIMIT = CHECK_FREQUENCY * 5;
+            const double FITNESS_DIFERENCE_LIMIT = 0.1;
 
             namespace PROPORTIONS {
                 const double LINKAGE_TRANSFER = 30;
