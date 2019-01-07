@@ -60,7 +60,7 @@ namespace GeneticAlgorithms {
         virtual bool iterate() = 0;
         virtual bool populate() = 0;
         virtual bool addCluster(Linkage::Cluster &cluster) = 0;
-        virtual bool replaceClusters(std::vector<Linkage::Cluster> clusters) = 0;
+        virtual bool setClusters(std::vector<Linkage::Cluster> clusters) = 0;
         virtual bool addIndividual(Individual &individual) = 0;
 
         inline double getBestFitness() const { return bestFitness; }
@@ -81,7 +81,7 @@ namespace GeneticAlgorithms {
         bool populate() override;
         bool iterate() override;
         inline bool addCluster(Linkage::Cluster &cluster) override { clusters.emplace_back(cluster); return true;}
-        inline bool replaceClusters(std::vector<Linkage::Cluster> clusters) override {this->clusters = clusters; return true;}
+        inline bool setClusters(std::vector<Linkage::Cluster> clusters) override {this->clusters = clusters; return true;}
         bool addIndividual(Individual &individual) override {return false;};
     };
 
@@ -109,13 +109,13 @@ namespace GeneticAlgorithms {
         if(Utils::getRandomPercentage() < Constants::Probability::LINKIN_TREE_GENERATION) {
             linkageAlgorithm.clear();
             linkageAlgorithm.calculate(population);
-            this->replaceClusters(linkageAlgorithm.getClusters());
+            this->setClusters(linkageAlgorithm.getClusters());
         }
 
         for(size_t i=0; i<SIZE/2; i++) {
             if(Utils::getRandomPercentage() < Constants::Probability::CROSSOVER_STANDARD) {
 
-                
+
 
 
             }
