@@ -222,8 +222,8 @@ TEST(ProbabilityTest, Mutation) {
 
 class MyEvaluator : public GeneticAlgorithms::Evaluator {
 public:
-    inline size_t getGenotypeSize() override{return 100;}
-    inline double getMaxFitness() override {return 100;}
+    inline size_t getGenotypeSize() override{return 500;}
+    inline double getMaxFitness() override {return 500;}
     inline double evaluate(Genotype::Genotype &genotype) override{
         int fitness = 0;
         for(size_t i : genotype.getGenesCopy())  {
@@ -236,12 +236,12 @@ public:
 TEST(Manual, Manual) {
     MyEvaluator myEvaluator;
 
-    GeneticAlgorithms::FixedSizeGA<GeneticAlgorithms::Constants::Population::NORMAL> algo(myEvaluator);
+    GeneticAlgorithms::FixedSizeGA<GeneticAlgorithms::Constants::Population::SMALL> algo(myEvaluator);
     //GeneticAlgorithms::FixedSizeGA<100> algo2(myEvaluator);
 
     double bestFitness = 0;
 
-    for(int i=0; i<1000; i++) {
+    for(int i=0; i<20; i++) {
         algo.iterate();
         //algo2.iterate();
 

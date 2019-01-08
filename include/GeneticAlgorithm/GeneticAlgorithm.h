@@ -69,6 +69,15 @@ namespace GeneticAlgorithms {
         virtual bool populate() = 0;
         virtual bool addCluster(Linkage::Cluster &cluster) = 0;
         virtual bool setClusters(std::vector<Linkage::Cluster> clusters) = 0;
+        virtual inline bool setPopulation(std::vector<Individual> &individuals) = 0;
+        virtual inline bool setPopulation(std::vector<Genotype::Genotype> &genotypes) {
+            std::vector<Individual> toSet;
+            toSet.resize(genotypes.size());
+            for(size_t i=0; i<genotypes.size(); i++) {
+                toSet[i] = Individual(evaluator, genotypes[i]);
+            }
+            return setPopulation(toSet);
+        }
         virtual bool transferIndividual(Individual &individual) = 0;
 
         inline double getBestFitness() const { return bestFitness; }
@@ -114,17 +123,32 @@ namespace GeneticAlgorithms {
         inline bool addCluster(Linkage::Cluster &cluster) override { clusters.emplace_back(cluster); return true;}
         inline bool setClusters(std::vector<Linkage::Cluster> clusters) override {this->clusters = clusters; return true;}
         inline bool transferIndividual(Individual &individual) override {return false;};
+        inline bool setPopulation(std::vector<Individual> &individuals) override { this->population = individuals; }
     };
 
 
 
     class GAManager {
 
-        class Algo {
+        struct Algo {
+            bool disabled;
+            GABase& algorithm;
+            std::vector<Individual> bestInstances;
             size_t stagnation;
         };
 
+        size_t iterations;
+        std::vector<Algo> algos;
 
+        void checkStagnation(Algo &a);
+
+        void runEach();
+        void getBest(Algo &a);
+        void getBests();
+        void checkProgress();
+
+    public:
+        void iterate();
 
     };
 
