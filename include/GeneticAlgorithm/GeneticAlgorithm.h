@@ -30,7 +30,7 @@ namespace GeneticAlgorithms {
         inline double evaluate(Genotype::Genotype &genotype) override { return 0; }
     };
 
-    EmptyEvaluator EMPTY_EVALUATOR;
+    static EmptyEvaluator EMPTY_EVALUATOR;
 
 
 
@@ -69,7 +69,7 @@ namespace GeneticAlgorithms {
         virtual bool populate() = 0;
         virtual bool addCluster(Linkage::Cluster &cluster) = 0;
         virtual bool setClusters(std::vector<Linkage::Cluster> clusters) = 0;
-        virtual inline bool setPopulation(std::vector<Individual> &individuals) = 0;
+        virtual bool setPopulation(std::vector<Individual> &individuals) = 0;
         virtual inline bool setPopulation(std::vector<Genotype::Genotype> &genotypes) {
             std::vector<Individual> toSet;
             toSet.resize(genotypes.size());
@@ -117,13 +117,21 @@ namespace GeneticAlgorithms {
 
 
     public:
-        inline explicit FixedSizeGA(Evaluator& evaluator) : GABase(evaluator) {populate();};
         bool populate() override;
+        inline explicit FixedSizeGA(Evaluator& evaluator) : GABase(evaluator) {populate();};
         bool iterate() override;
         inline bool addCluster(Linkage::Cluster &cluster) override { clusters.emplace_back(cluster); return true;}
         inline bool setClusters(std::vector<Linkage::Cluster> clusters) override {this->clusters = clusters; return true;}
-        inline bool transferIndividual(Individual &individual) override {return false;};
-        inline bool setPopulation(std::vector<Individual> &individuals) override { this->population = individuals; }
+        inline bool transferIndividual(Individual &individual) override {
+            population[Utils::getRandomSize(population.size()-1)] = individual;
+            return true;
+        };
+        inline bool setPopulation(std::vector<Individual> &individuals) override {
+            std::array<Individual, SIZE> pop;
+            if(individuals.size() < SIZE) return false;
+            for(size_t i = 0; i<SIZE; i++) pop[i] = individuals[i];
+            this->population = pop; return true;
+        }
     };
 
 
@@ -131,14 +139,17 @@ namespace GeneticAlgorithms {
     class GAManager {
 
         struct Algo {
+            inline explicit Algo(GABase &algorithm) : algorithm(&algorithm) {disabled = false; stagnation = 0;}
             bool disabled;
-            GABase& algorithm;
-            std::vector<Individual> bestInstances;
+            GABase * algorithm;
+            std::vector<Individual> bestIndividuals;
             size_t stagnation;
         };
 
         size_t iterations;
         std::vector<Algo> algos;
+        std::set<Individual> bestIndividualsGlobal;
+        Linkage::Algorithm linkageAlgo;
 
         void checkStagnation(Algo &a);
 
@@ -148,7 +159,16 @@ namespace GeneticAlgorithms {
         void checkProgress();
 
     public:
+        inline GAManager() {
+            this->iterations = 0;
+        }
+        inline void addAlgorithm(GABase &base) {
+            Algo newAlgo(base);
+            algos.emplace_back(newAlgo);
+        }
         void iterate();
+        Individual getBestIndividual();
+        double getBestFitness();
 
     };
 

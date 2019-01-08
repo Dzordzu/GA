@@ -21,8 +21,8 @@ namespace GeneticAlgorithms {
             const size_t SMALL = 40;
             const size_t NORMAL = 50;
             const size_t BIG = 100;
-            const size_t HUGE = 150;
-            const size_t ENORMOUS = 500;
+            const size_t HUGE = 1500;
+            const size_t ENORMOUS = 3500;
         }
 
         namespace Probability {
@@ -37,14 +37,15 @@ namespace GeneticAlgorithms {
 
         namespace GA_MANAGER {
             const size_t CHECK_FREQUENCY = 15;
-            const size_t STAGNATION_LIMIT = CHECK_FREQUENCY * 5;
-            const double FITNESS_DIFERENCE_LIMIT = 0.1;
+            const size_t STAGNATION_LIMIT = CHECK_FREQUENCY * 4;
+            const double FITNESS_DIFERENCE_LIMIT = 0.01;
 
-            namespace PROPORTIONS {
-                const double LINKAGE_TRANSFER = 30;
-                const double INDIVIDUALS_TRANSFER = 30;
-                const double DISABLE = 10;
-                const double REMOVE = 1;
+            namespace CHOICES {
+                const double NOTHING = 0;
+                const double LINKAGE_TRANSFER = 0;
+                const double INDIVIDUALS_TRANSFER = 1;
+                const double DISABLE = 1.3;
+                const double REMOVE = 1.2;
             }
         }
 

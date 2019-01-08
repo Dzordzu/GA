@@ -235,24 +235,35 @@ public:
 
 TEST(Manual, Manual) {
     MyEvaluator myEvaluator;
+    typedef GeneticAlgorithms::FixedSizeGA<GeneticAlgorithms::Constants::Population::SMALL> algo;
 
-    GeneticAlgorithms::FixedSizeGA<GeneticAlgorithms::Constants::Population::SMALL> algo(myEvaluator);
-    //GeneticAlgorithms::FixedSizeGA<100> algo2(myEvaluator);
+    algo a1(myEvaluator);
+    algo a2(myEvaluator);
+    GeneticAlgorithms::FixedSizeGA<GeneticAlgorithms::Constants::Population::ENORMOUS> algo2(myEvaluator);
+    GeneticAlgorithms::GAManager manager;
+    //manager.addAlgorithm(a1);
+    //manager.addAlgorithm(a2);
+    manager.addAlgorithm(algo2);
 
     double bestFitness = 0;
 
-    for(int i=0; i<20; i++) {
-        algo.iterate();
-        //algo2.iterate();
+    for(int i=0; i<200; i++) {
 
-        bestFitness = std::max(algo.getBestFitness(), bestFitness);
-        //bestFitness = std::max(algo2.getBestFitness(), bestFitness);
+        manager.iterate();
+        bestFitness = std::max(manager.getBestFitness(), bestFitness);
+        std::cout<<manager.getBestFitness()<<std::endl;
 
-        //std::cout<<algo.getBestFitness()<<std::endl;
-        if(bestFitness == myEvaluator.getMaxFitness()) break;
+//        algo.iterate();
+//        //algo2.iterate();
+//
+//        bestFitness = std::max(algo.getBestFitness(), bestFitness);
+//        //bestFitness = std::max(algo2.getBestFitness(), bestFitness);
+//
+//        //std::cout<<algo.getBestFitness()<<std::endl;
+//        if(bestFitness == myEvaluator.getMaxFitness()) break;
     }
 
-    std::cout<<algo.getBestFitness();
+    //std::cout<<manager.getBestFitness();
 
 
 
