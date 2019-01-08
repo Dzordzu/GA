@@ -10,7 +10,7 @@ namespace GeneticAlgorithms {
         double lastFitness = (*a.bestIndividuals.rbegin()).getFitness();
         double veryLastFitness = (*(a.bestIndividuals.rbegin() + 1)).getFitness();
         size_t stagnation;
-        if(1 - (veryLastFitness/lastFitness) < Constants::GA_MANAGER::FITNESS_DIFERENCE_LIMIT) stagnation += Constants::GA_MANAGER::CHECK_FREQUENCY;
+        if(1 - (veryLastFitness/lastFitness) < Constants::GAManager::FITNESS_DIFERENCE_LIMIT) stagnation += Constants::GAManager::CHECK_FREQUENCY;
 
         a.stagnation = stagnation;
     }
@@ -35,17 +35,17 @@ namespace GeneticAlgorithms {
 
     void GAManager::checkProgress() {
 
-        using Constants::GA_MANAGER::CHOICES::LINKAGE_TRANSFER;
-        using Constants::GA_MANAGER::CHOICES::INDIVIDUALS_TRANSFER;
-        using Constants::GA_MANAGER::CHOICES::DISABLE;
-        using Constants::GA_MANAGER::CHOICES::REMOVE;
-        using Constants::GA_MANAGER::CHOICES::NOTHING;
+        using Constants::GAManager::Choices::LINKAGE_TRANSFER;
+        using Constants::GAManager::Choices::INDIVIDUALS_TRANSFER;
+        using Constants::GAManager::Choices::DISABLE;
+        using Constants::GAManager::Choices::REMOVE;
+        using Constants::GAManager::Choices::NOTHING;
 
         for(size_t index = 0; index < algos.size(); index++) {
             Algo &a = algos[index];
             checkStagnation(a);
 
-            if(a.stagnation > Constants::GA_MANAGER::STAGNATION_LIMIT) {
+            if(a.stagnation > Constants::GAManager::STAGNATION_LIMIT) {
                 double choice = Utils::getRandomPercentage();
 
                 if(NOTHING  < choice && choice < LINKAGE_TRANSFER) {
@@ -68,7 +68,7 @@ namespace GeneticAlgorithms {
 
     void GAManager::iterate() {
         runEach();
-        if(iterations % Constants::GA_MANAGER::CHECK_FREQUENCY == 0) {
+        if(iterations % Constants::GAManager::CHECK_FREQUENCY == 0) {
             getBests();
             checkProgress();
         }
