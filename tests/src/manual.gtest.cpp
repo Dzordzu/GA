@@ -13,8 +13,8 @@
 
 class MyEvaluator : public GeneticAlgorithms::Evaluator {
 public:
-    inline size_t getGenotypeSize() override{return 500;}
-    inline double getMaxFitness() override {return 500;}
+    inline size_t getGenotypeSize() override{return 300;}
+    inline double getMaxFitness() override {return 300;}
     inline double evaluate(Genotype::Genotype &genotype) override{
         int fitness = 0;
         for(size_t i : genotype.getGenesCopy())  {
@@ -38,20 +38,20 @@ manager.addAlgorithm(algo2);
 
 double bestFitness = 0;
 
-for(int i=0; i<200; i++) {
+for(int i=0; i<3000; i++) {
 
-manager.iterate();
-bestFitness = std::max(manager.getBestFitness(), bestFitness);
-std::cout<<manager.getBestFitness()<<std::endl;
+    manager.iterate();
+    bestFitness = std::max(manager.getBestFitness(), bestFitness);
+    std::cout<<bestFitness<<std::endl;
 
-//        algo.iterate();
-//        //algo2.iterate();
-//
-//        bestFitness = std::max(algo.getBestFitness(), bestFitness);
-//        //bestFitness = std::max(algo2.getBestFitness(), bestFitness);
-//
-//        //std::cout<<algo.getBestFitness()<<std::endl;
-//        if(bestFitness == myEvaluator.getMaxFitness()) break;
+    //        algo.iterate();
+    //        //algo2.iterate();
+    //
+    //        bestFitness = std::max(algo.getBestFitness(), bestFitness);
+    //        //bestFitness = std::max(algo2.getBestFitness(), bestFitness);
+    //
+    //        //std::cout<<algo.getBestFitness()<<std::endl;
+            if(bestFitness == myEvaluator.getMaxFitness()) break;
 }
 
 //std::cout<<manager.getBestFitness();

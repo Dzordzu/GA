@@ -22,7 +22,7 @@ namespace GeneticAlgorithms {
             const size_t NORMAL = 500;
             const size_t BIG = 1000;
             const size_t HUGE = 1500;
-            const size_t ENORMOUS = 3500;
+            const size_t ENORMOUS = 7000;
         }
 
         namespace Probability {
