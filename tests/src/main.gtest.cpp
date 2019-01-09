@@ -220,54 +220,8 @@ TEST(ProbabilityTest, Mutation) {
     EXPECT_NE(mutation.getResult(), genotype);
 }
 
-class MyEvaluator : public GeneticAlgorithms::Evaluator {
-public:
-    inline size_t getGenotypeSize() override{return 500;}
-    inline double getMaxFitness() override {return 500;}
-    inline double evaluate(Genotype::Genotype &genotype) override{
-        int fitness = 0;
-        for(size_t i : genotype.getGenesCopy())  {
-            fitness += i;
-        }
-        return fitness;
-    }
-};
+#include "manual.gtest.cpp"
 
-TEST(Manual, Manual) {
-    MyEvaluator myEvaluator;
-    typedef GeneticAlgorithms::FixedSizeGA<GeneticAlgorithms::Constants::Population::SMALL> algo;
-
-    algo a1(myEvaluator);
-    algo a2(myEvaluator);
-    GeneticAlgorithms::FixedSizeGA<GeneticAlgorithms::Constants::Population::ENORMOUS> algo2(myEvaluator);
-    GeneticAlgorithms::GAManager manager;
-    //manager.addAlgorithm(a1);
-    //manager.addAlgorithm(a2);
-    manager.addAlgorithm(algo2);
-
-    double bestFitness = 0;
-
-    for(int i=0; i<200; i++) {
-
-        manager.iterate();
-        bestFitness = std::max(manager.getBestFitness(), bestFitness);
-        std::cout<<manager.getBestFitness()<<std::endl;
-
-//        algo.iterate();
-//        //algo2.iterate();
-//
-//        bestFitness = std::max(algo.getBestFitness(), bestFitness);
-//        //bestFitness = std::max(algo2.getBestFitness(), bestFitness);
-//
-//        //std::cout<<algo.getBestFitness()<<std::endl;
-//        if(bestFitness == myEvaluator.getMaxFitness()) break;
-    }
-
-    //std::cout<<manager.getBestFitness();
-
-
-
-}
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
