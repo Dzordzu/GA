@@ -6,7 +6,7 @@ project(genetic-algorithm VERSION 1.0.0 )
 #
 include(cmake/GTest.cmake)
 
-add_library(GeneticAlgorithm src/GeneticAlgorithm.cpp src/Linkage.cpp src/Linkage.h src/Genotype.cpp src/Genotype.h)
+add_library(GeneticAlgorithm SHARED)
 
 target_include_directories(GeneticAlgorithm
         PUBLIC
@@ -17,4 +17,4 @@ target_include_directories(GeneticAlgorithm
         )
 target_compile_features(GeneticAlgorithm PRIVATE cxx_std_17)
 
-add_subdirectory(tests)
+# add_subdirectory(tests)
