@@ -15,23 +15,23 @@ namespace GeneticAlgorithm {
         class Population {
         public:
             virtual void add(Individual i) = 0;
-
             virtual Individual getBest() = 0;
             virtual Individual getBest(int amount) = 0;
-
             virtual Individual getRandom() = 0;
-
             virtual void remove() = 0;
             virtual void remove(int amount) = 0;
         };
 
+        class Settings {};
+
         class AlgorithmBase {
         protected:
             Population *population;
+            Settings *settings;
         public:
             virtual void iterate() = 0;
             virtual Population *getPopulation() = 0;
-
+            virtual Settings *getSettings() = 0;
         };
 
 
