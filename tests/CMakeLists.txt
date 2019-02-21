@@ -1,4 +1,4 @@
-add_executable(GeneticAlgorithmTests src/main.gtest.cpp)
+add_executable(GeneticAlgorithmTests src/core.gtest.cpp)
 target_link_libraries(GeneticAlgorithmTests gmock_main GeneticAlgorithm)
 add_test(NAME example_test COMMAND GeneticAlgorithmTests)
 

@@ -3,3 +3,16 @@
 //
 
 #include "Core.hpp"
+
+namespace GeneticAlgorithm {
+    namespace Core {
+
+        Genotype &Individual::getGenotype() {
+            return this->genotype;
+        }
+
+        double Individual::getFitness() {
+            return fitness;
+        }
+    }
+}
