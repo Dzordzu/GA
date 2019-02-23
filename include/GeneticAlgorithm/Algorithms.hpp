@@ -28,28 +28,24 @@ namespace GeneticAlgorithm {
             double mutationProbability;
             double singleGeneMutationProbability;
         };
-    }
 
-    namespace Binary {
-
-    }
-
-    namespace Algorithms {
-        using GeneticAlgorithm::Core::Individual;
-        using GeneticAlgorithm::Core::Population;
-
-        class Settings {};
-
+        template <typename Genotype>
         class Algorithm {
         protected:
-            Population *population;
+            Population<Genotype> *population;
             Settings *settings;
         public:
             virtual void iterate() = 0;
-            virtual Population *getPopulation() = 0;
+            virtual Population<Genotype> *getPopulation() = 0;
             virtual Settings *getSettings() = 0;
         };
+    }
 
+    namespace Binary {
+        typedef typename GeneticAlgorithm::Core::Individual<Genotype> Individual;
+        typedef typename GeneticAlgorithm::Core::Population<Genotype> Population;
+        typedef typename GeneticAlgorithm::Core::Algorithm<Genotype> Algorithm;
+        
     }
 }
 
