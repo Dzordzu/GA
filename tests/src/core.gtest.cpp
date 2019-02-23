@@ -5,14 +5,14 @@
 #include "gtest/gtest.h"
 #include "GeneticAlgorithm/Algorithms.hpp"
 
-TEST(Algorithms, SimpleAlgorithm) {
+TEST(BinaryAlgorithms, SimpleAlgorithm) {
 
-    GeneticAlgorithm::Algorithms::Settings settings;
+    GeneticAlgorithm::Binary::Algorithms::Settings settings;
     settings.setMutationProbability(0.05);
     settings.setCrossoverProbability(0.4);
 
     GeneticAlgorithm::Population::SimplePopulation population;
-    GeneticAlgorithm::Algorithms::Binary::SimpleAlgorithm algorithm(*population, *settings);
+    GeneticAlgorithm::Binary::Algorithms::SimpleAlgorithm algorithm(*population, *settings);
 
     for(int i=0; i<100; i++) {
         algorithm.iterate();

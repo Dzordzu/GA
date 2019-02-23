@@ -8,9 +8,13 @@
 #include <vector>
 
 namespace GeneticAlgorithm {
-    namespace Core {
-        typedef typename std::vector<int> Genotype;
 
+    namespace Binary {
+        typedef typename std::vector<int> Genotype;
+    }
+
+    namespace Core {
+        template <typename Genotype>
         class Individual {
         protected:
             Genotype genotype;

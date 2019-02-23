@@ -10,24 +10,33 @@
 namespace GeneticAlgorithm {
 
 
-    namespace Population {
-        using GeneticAlgorithm::Core::Individual;
-
+    namespace Core {
+        template <typename Genotype>
         class Population {
         public:
-            virtual void add(Individual i) = 0;
+            virtual void add(Individual<Genotype> i) = 0;
             virtual void fillRandom(int toSize) = 0;
-            virtual Individual getBest() = 0;
-            virtual Individual getBest(int amount) = 0;
-            virtual Individual getRandom() = 0;
+            virtual Individual<Genotype> getBest() = 0;
+            virtual Individual<Genotype> getBest(int amount) = 0;
+            virtual Individual<Genotype> getRandom() = 0;
             virtual void remove() = 0;
             virtual void remove(int amount) = 0;
         };
+
+        struct Settings {
+            double crossoverProbability;
+            double mutationProbability;
+            double singleGeneMutationProbability;
+        };
+    }
+
+    namespace Binary {
+
     }
 
     namespace Algorithms {
         using GeneticAlgorithm::Core::Individual;
-        using GeneticAlgorithm::Population::Population;
+        using GeneticAlgorithm::Core::Population;
 
         class Settings {};
 
