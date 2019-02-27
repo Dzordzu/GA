@@ -11,8 +11,8 @@ TEST(BinaryAlgorithms, SimpleAlgorithm) {
     settings.setMutationProbability(0.05);
     settings.setCrossoverProbability(0.4);
 
-    GeneticAlgorithm::Population::SimplePopulation population;
-    GeneticAlgorithm::Binary::Algorithms::SimpleAlgorithm algorithm(*population, *settings);
+    GeneticAlgorithm::Binary::VectorPopulation vectorPopulation;
+    GeneticAlgorithm::Binary::SimpleAlgorithm algorithm(*population, *settings);
 
     for(int i=0; i<100; i++) {
         algorithm.iterate();

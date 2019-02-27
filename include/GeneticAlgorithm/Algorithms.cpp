@@ -34,3 +34,16 @@ void GeneticAlgorithm::Binary::VectorPopulation::remove() {
 void GeneticAlgorithm::Binary::VectorPopulation::remove(int amount) {
 
 }
+
+void GeneticAlgorithm::Binary::SimpleAlgorithm::iterate() {
+
+}
+
+GeneticAlgorithm::Core::Population<GeneticAlgorithm::Binary::Genotype> *
+GeneticAlgorithm::Binary::SimpleAlgorithm::getPopulation() {
+    return nullptr;
+}
+
+GeneticAlgorithm::Core::Settings *GeneticAlgorithm::Binary::SimpleAlgorithm::getSettings() {
+    return nullptr;
+}
