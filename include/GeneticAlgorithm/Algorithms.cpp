@@ -4,8 +4,7 @@
 
 #include "Algorithms.hpp"
 
-void GeneticAlgorithm::Binary::VectorPopulation::add(
-        GeneticAlgorithm::Core::Individual<GeneticAlgorithm::Binary::Genotype> i) {
+void GeneticAlgorithm::Binary::VectorPopulation::add(Genotype i) {
 
 }
 

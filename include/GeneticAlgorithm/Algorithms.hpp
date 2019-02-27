@@ -15,7 +15,7 @@ namespace GeneticAlgorithm {
         template <typename Genotype>
         class Population {
         public:
-            virtual void add(Individual<Genotype> i) = 0;
+            virtual void add(Genotype i) = 0;
             virtual void fillRandom(int toSize) = 0;
             virtual Individual<Genotype> getBest() = 0;
             virtual Individual<Genotype> getBest(int amount) = 0;
@@ -50,7 +50,7 @@ namespace GeneticAlgorithm {
         class VectorPopulation : public Population {
             std::vector<Individual> population;
         public:
-            void add(Individual i) override;
+            void add(Genotype i) override;
             void fillRandom(int toSize) override;
             Individual getBest() override;
             Individual getBest(int amount) override;
