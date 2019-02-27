@@ -3,3 +3,35 @@
 //
 
 #include "Algorithms.hpp"
+
+void GeneticAlgorithm::Binary::VectorPopulation::add(
+        GeneticAlgorithm::Core::Individual<GeneticAlgorithm::Binary::Genotype> i) {
+
+}
+
+void GeneticAlgorithm::Binary::VectorPopulation::fillRandom(int toSize) {
+
+}
+
+GeneticAlgorithm::Core::Individual<GeneticAlgorithm::Binary::Genotype>
+GeneticAlgorithm::Binary::VectorPopulation::getBest() {
+    return Individual();
+}
+
+GeneticAlgorithm::Core::Individual<GeneticAlgorithm::Binary::Genotype>
+GeneticAlgorithm::Binary::VectorPopulation::getBest(int amount) {
+    return Individual();
+}
+
+GeneticAlgorithm::Core::Individual<GeneticAlgorithm::Binary::Genotype>
+GeneticAlgorithm::Binary::VectorPopulation::getRandom() {
+    return Individual();
+}
+
+void GeneticAlgorithm::Binary::VectorPopulation::remove() {
+
+}
+
+void GeneticAlgorithm::Binary::VectorPopulation::remove(int amount) {
+
+}
