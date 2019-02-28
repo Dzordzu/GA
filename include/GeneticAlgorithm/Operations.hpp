@@ -13,24 +13,18 @@ namespace GeneticAlgorithm {
         template<typename Genotype>
         class Mutation {public: virtual void mutate(Individual<Genotype> &individual) = 0;};
 
-        template<typename Genotype>
-        class Crossover {
-        public:
-            virtual void cross(Individual<Genotype> &target, Individual<Genotype> &source) = 0;
-        };
     }
 
     namespace Binary {
         namespace Crossover {
 
-            using GeneticAlgorithm::Core::Crossover;
             class Genotype;
+            class Individual;
+            class Evaluator;
 
-            class SimpleCrossover : public Crossover<Genotype> {
-            public:
-                virtual void cross(Core::Individual<Genotype> &target, Core::Individual<Genotype> &source);
-            };
-
+            void standardCrossover(Individual &target, Individual &source);
+            void betterOneCrossover(Individual &target, Individual &source, Evaluator *evaluator);
+            void firstImprovementCrossover(Individual &target, Individual &source, Evaluator *evaluator);
         }
     }
 }

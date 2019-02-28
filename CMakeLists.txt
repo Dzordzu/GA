@@ -7,7 +7,7 @@ project(genetic-algorithm VERSION 1.0.0 )
 include(cmake/GTest.cmake)
 
 add_library(GeneticAlgorithm SHARED
-        include/GeneticAlgorithm/Algorithms.cpp
+        src/Algorithms.cpp
         src/Operations.cpp
         )
 
