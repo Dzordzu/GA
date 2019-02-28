@@ -55,6 +55,7 @@ namespace GeneticAlgorithm {
     }
 
     namespace Binary {
+        typedef typename std::vector<int> Genotype;
         typedef typename GeneticAlgorithm::Core::Evaluator<Genotype> Evaluator;
         typedef typename GeneticAlgorithm::Core::Individual<Genotype> Individual;
         typedef typename GeneticAlgorithm::Core::Population<Genotype> Population;

@@ -9,11 +9,10 @@
 
 namespace GeneticAlgorithm {
 
-    namespace Binary {
-        typedef typename std::vector<int> Genotype;
-    }
-
     namespace Core {
+
+        template <typename Genotype> class Evaluator {};
+
         template <typename Genotype>
         class Individual {
         protected:
@@ -22,7 +21,7 @@ namespace GeneticAlgorithm {
         public:
             void setGenotype(Genotype genotype, double fitness);
             Genotype &getGenotypeReference();
-            double &getFitnessReference();
+            void recalculateFitness(Evaluator<Genotype> *evaluator);
             double getFitness();
         };
 
@@ -43,8 +42,8 @@ namespace GeneticAlgorithm {
         }
 
         template<typename Genotype>
-        double &Individual<Genotype>::getFitnessReference() {
-            return this->fitness;
+        void Individual<Genotype>::recalculateFitness(Evaluator<Genotype> *evaluator) {
+            this->fitness = evaluator->calculateFitness(this->genotype);
         }
     }
 }
