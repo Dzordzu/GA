@@ -12,10 +12,13 @@ namespace GeneticAlgorithm {
 
         using GeneticAlgorithm::Core::Individual;
 
-        class Mutation {public: virtual void mutate(Individual &individual) = 0;};
+        template<typename Genotype>
+        class Mutation {public: virtual void mutate(Individual<Genotype> &individual) = 0;};
+
+        template<typename Genotype>
         class Crossover {
         public:
-            virtual void cross(Individual &target, Individual source) = 0;
+            virtual void cross(Individual<Genotype> &target, Individual<Genotype> &source) = 0;
         };
     }
 }
