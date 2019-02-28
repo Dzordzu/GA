@@ -7,9 +7,9 @@
 
 TEST(BinaryAlgorithms, SimpleAlgorithm) {
 
-    GeneticAlgorithm::Binary::Algorithms::Settings settings;
-    settings.setMutationProbability(0.05);
-    settings.setCrossoverProbability(0.4);
+    GeneticAlgorithm::Core::Settings settings;
+    settings.mutationProbability = 0.05;
+    settings.crossoverProbability = 0.4;
 
     GeneticAlgorithm::Binary::VectorPopulation vectorPopulation;
     GeneticAlgorithm::Binary::SimpleAlgorithm algorithm(*population, *settings);
