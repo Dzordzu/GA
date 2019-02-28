@@ -9,6 +9,7 @@ include(cmake/GTest.cmake)
 add_library(GeneticAlgorithm SHARED
         src/Algorithms.cpp
         src/Operations.cpp
+        src/Binary.cpp
         )
 
 target_include_directories(GeneticAlgorithm

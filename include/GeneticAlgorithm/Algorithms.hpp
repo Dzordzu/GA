@@ -14,27 +14,6 @@ namespace GeneticAlgorithm {
 
     namespace Core {
 
-        template<typename Genotype>
-        class Evaluator {
-        public:
-            virtual size_t getGenotypeLength() = 0;
-            virtual double calculateFitness(Individual<Genotype> &i) = 0;
-            virtual double getMaxFitness() = 0;
-        };
-
-        template <typename Genotype>
-        class Population {
-        protected:
-            Evaluator<Genotype> *evaluator;
-        public:
-            virtual void add(Genotype i) = 0;
-            virtual void fillRandom(int toSize = -1) = 0;
-            virtual Individual<Genotype> getBest() = 0;
-            virtual Individual<Genotype> &getRandomReference() = 0; //Why not iterators? We do not want to obligate user to use specific structure
-            virtual Individual<Genotype>  removeRandom() = 0; // Returns removed Individual
-
-            virtual Evaluator<Genotype> *getEvaluatorPointer() = 0;
-        };
 
         struct Settings {
             double crossoverProbability;
