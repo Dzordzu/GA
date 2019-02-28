@@ -11,28 +11,6 @@
 
 namespace GeneticAlgorithm {
 
-
-    namespace Core {
-
-
-        struct Settings {
-            double crossoverProbability;
-            double mutationProbability;
-            double singleGeneMutationProbability;
-        };
-
-        template <typename Genotype>
-        class Algorithm {
-        protected:
-            Population<Genotype> *population;
-            Settings *settings;
-        public:
-            virtual void iterate() = 0;
-            virtual Population<Genotype> *getPopulation() = 0;
-            virtual Settings *getSettings() = 0;
-        };
-    }
-
     namespace Binary {
         typedef typename std::vector<int> Genotype;
         typedef typename GeneticAlgorithm::Core::Evaluator<Genotype> Evaluator;

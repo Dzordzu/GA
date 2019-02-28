@@ -65,6 +65,24 @@ namespace GeneticAlgorithm {
         void Individual<Genotype>::recalculateFitness(Evaluator<Genotype> *evaluator) {
             this->fitness = evaluator->calculateFitness(this->genotype);
         }
+
+        struct Settings {
+            double crossoverProbability;
+            double mutationProbability;
+            double singleGeneMutationProbability;
+        };
+
+        template <typename Genotype>
+        class Algorithm {
+        protected:
+            Population<Genotype> *population;
+            Settings *settings;
+        public:
+            virtual void iterate() = 0;
+            virtual Population<Genotype> *getPopulation() = 0;
+            virtual Settings *getSettings() = 0;
+        };
+
     }
 }
 
