@@ -11,7 +11,7 @@ namespace GeneticAlgorithm {
 
     namespace Core {
 
-        template <typename Genotype> class Evaluator {};
+        template <typename Genotype> class Evaluator;
 
         template <typename Genotype>
         class Individual {

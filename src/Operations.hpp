@@ -8,9 +8,7 @@
 #include "Core.hpp"
 
 namespace GeneticAlgorithm {
-    namespace Operations {
-
-        using GeneticAlgorithm::Core::Individual;
+    namespace Core {
 
         template<typename Genotype>
         class Mutation {public: virtual void mutate(Individual<Genotype> &individual) = 0;};
@@ -20,6 +18,20 @@ namespace GeneticAlgorithm {
         public:
             virtual void cross(Individual<Genotype> &target, Individual<Genotype> &source) = 0;
         };
+    }
+
+    namespace Binary {
+        namespace Crossover {
+
+            using GeneticAlgorithm::Core::Crossover;
+            class Genotype;
+
+            class SimpleCrossover : public Crossover<Genotype> {
+            public:
+                virtual void cross(Core::Individual<Genotype> &target, Core::Individual<Genotype> &source);
+            };
+
+        }
     }
 }
 
