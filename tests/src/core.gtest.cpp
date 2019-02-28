@@ -41,7 +41,7 @@ TEST(BinaryAlgorithms, SimpleAlgorithm) {
     MAX0::Evaluator evaluator(30);
 
     GeneticAlgorithm::Binary::VectorPopulation vectorPopulation(*evaluator);
-    vectorPopulation.fillRandom();
+    vectorPopulation.fillRandom(-1);
 
     GeneticAlgorithm::Binary::SimpleAlgorithm algorithm(*population, *settings);
 
