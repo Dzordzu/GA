@@ -55,6 +55,7 @@ namespace GeneticAlgorithm {
     }
 
     namespace Binary {
+        typedef typename GeneticAlgorithm::Core::Evaluator<Genotype> Evaluator;
         typedef typename GeneticAlgorithm::Core::Individual<Genotype> Individual;
         typedef typename GeneticAlgorithm::Core::Population<Genotype> Population;
         typedef typename GeneticAlgorithm::Core::Algorithm<Genotype> Algorithm;
@@ -65,9 +66,6 @@ namespace GeneticAlgorithm {
             void add(Genotype i) override;
             void fillRandom(int toSize) override;
             Individual getBest() override;
-            Individual getBest(int amount) override;
-            Individual getRandom() override;
-            void remove() override;
         };
 
         class SimpleAlgorithm : public Algorithm {

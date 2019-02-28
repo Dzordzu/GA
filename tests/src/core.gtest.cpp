@@ -5,13 +5,44 @@
 #include "gtest/gtest.h"
 #include "GeneticAlgorithm/Algorithms.hpp"
 
+namespace MAX0 {
+    class Evaluator : public GeneticAlgorithm::Binary::Evaluator {
+        size_t genotypeLength;
+    public:
+        explicit Evaluator(size_t genotypeLength = 10) {
+            this->genotypeLength = genotypeLength;
+        }
+
+        size_t getGenotypeLength() override {
+            return genotypeLength;
+        }
+
+        double calculateFitness(GeneticAlgorithm::Core::Individual<GeneticAlgorithm::Binary::Genotype> &i) override {
+            int zeros = 0;
+            for(int j = 0; j<i.getGenotype().size(); j++) {
+                if(i.getGenotype().at(j) == 0) zeros++;
+            }
+            return (double)zeros;
+        }
+
+        double getMaxFitness() override {
+            return (double)genotypeLength;
+        }
+    };
+}
+
 TEST(BinaryAlgorithms, SimpleAlgorithm) {
 
-    GeneticAlgorithm::Core::Settings settings;
+    GeneticAlgorithm::Core::Settings settings{};
     settings.mutationProbability = 0.05;
     settings.crossoverProbability = 0.4;
+    settings.singleGeneMutationProbability = 0.1
 
-    GeneticAlgorithm::Binary::VectorPopulation vectorPopulation;
+    MAX0::Evaluator evaluator(30);
+
+    GeneticAlgorithm::Binary::VectorPopulation vectorPopulation(*evaluator);
+    vectorPopulation.fillRandom();
+
     GeneticAlgorithm::Binary::SimpleAlgorithm algorithm(*population, *settings);
 
     for(int i=0; i<100; i++) {
