@@ -66,6 +66,9 @@ namespace GeneticAlgorithm {
             void add(Genotype i) override;
             void fillRandom(int toSize) override;
             Individual getBest() override;
+            Individual &getRandomReference() override;
+            Individual removeRandom() override;
+            Evaluator *getEvaluatorPointer() override;
         };
 
         class SimpleAlgorithm : public Algorithm {

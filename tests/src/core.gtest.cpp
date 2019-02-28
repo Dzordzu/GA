@@ -19,8 +19,8 @@ namespace MAX0 {
 
         double calculateFitness(GeneticAlgorithm::Core::Individual<GeneticAlgorithm::Binary::Genotype> &i) override {
             int zeros = 0;
-            for(int j = 0; j<i.getGenotype().size(); j++) {
-                if(i.getGenotype().at(j) == 0) zeros++;
+            for(int j = 0; j< i.getGenotypeReference().size(); j++) {
+                if(i.getGenotypeReference().at(j) == 0) zeros++;
             }
             return (double)zeros;
         }

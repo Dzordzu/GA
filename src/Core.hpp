@@ -20,9 +20,25 @@ namespace GeneticAlgorithm {
             Genotype genotype;
             double fitness;
         public:
-            Genotype &getGenotype();
+            void setGenotype(Genotype genotype);
+            Genotype &getGenotypeReference();
             double getFitness();
         };
+
+        template<typename Genotype>
+        Genotype &Individual<Genotype>::getGenotypeReference() {
+            return genotype;
+        }
+
+        template<typename Genotype>
+        double Individual<Genotype>::getFitness() {
+            return fitness;
+        }
+
+        template<typename Genotype>
+        void Individual<Genotype>::setGenotype(Genotype genotype) {
+            this->genotype = genotype;
+        }
     }
 }
 

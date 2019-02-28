@@ -17,6 +17,21 @@ GeneticAlgorithm::Binary::VectorPopulation::getBest() {
     return Individual();
 }
 
+GeneticAlgorithm::Core::Individual<GeneticAlgorithm::Binary::Genotype> &
+GeneticAlgorithm::Binary::VectorPopulation::getRandomReference() {
+    return <#initializer#>;
+}
+
+GeneticAlgorithm::Core::Individual<GeneticAlgorithm::Binary::Genotype>
+GeneticAlgorithm::Binary::VectorPopulation::removeRandom() {
+    return Individual<Genotype>();
+}
+
+GeneticAlgorithm::Core::Evaluator<GeneticAlgorithm::Binary::Genotype> *
+GeneticAlgorithm::Binary::VectorPopulation::getEvaluatorPointer() {
+    return nullptr;
+}
+
 GeneticAlgorithm::Core::Individual<GeneticAlgorithm::Binary::Genotype>
 GeneticAlgorithm::Binary::VectorPopulation::getBest(int amount) {
     return Individual();
