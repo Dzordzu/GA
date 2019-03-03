@@ -59,7 +59,7 @@ namespace GeneticAlgorithm {
         template<typename Genotype>
         void Individual<Genotype>::setGenotype(Genotype genotype, Evaluator<Genotype> *evaluator) {
             this->genotype = genotype;
-            this->fitness = evaluator->calculateFitness(evaluator);
+            this->fitness = evaluator->calculateFitness(genotype);
         }
 
         template<typename Genotype>
