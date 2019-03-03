@@ -30,9 +30,9 @@ namespace GeneticAlgorithm {
             void VectorPopulation::add(Genotype i) {
 
                 Individual individual;
-                individual.setGenotype()
+                individual.setGenotype(Generator::getInstance().generateRandomGenotype(this->evaluator->getGenotypeLength()), this->evaluator);
 
-                this->population.push_back();
+                this->population.push_back(individual);
             }
         }
     }

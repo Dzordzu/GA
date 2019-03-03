@@ -26,7 +26,7 @@ namespace GeneticAlgorithm {
             Genotype genotype;
             double fitness;
         public:
-            void setGenotype(Genotype genotype, double fitness);
+            void setGenotype(Genotype genotype, Evaluator<Genotype> *evaluator);
             Genotype &getGenotypeReference();
             void recalculateFitness(Evaluator<Genotype> *evaluator);
             double getFitness();
@@ -57,9 +57,9 @@ namespace GeneticAlgorithm {
         }
 
         template<typename Genotype>
-        void Individual<Genotype>::setGenotype(Genotype genotype, double fitness) {
+        void Individual<Genotype>::setGenotype(Genotype genotype, Evaluator<Genotype> *evaluator) {
             this->genotype = genotype;
-            this->fitness = fitness;
+            this->fitness = evaluator->calculateFitness(evaluator);
         }
 
         template<typename Genotype>
