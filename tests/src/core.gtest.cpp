@@ -40,10 +40,10 @@ TEST(BinaryAlgorithms, SimpleAlgorithm) {
 
     MAX0::Evaluator evaluator(30);
 
-    GeneticAlgorithm::Binary::VectorPopulation vectorPopulation(*evaluator);
+    GeneticAlgorithm::Binary::Populations::VectorPopulation vectorPopulation(*evaluator);
     vectorPopulation.fillRandom(-1);
 
-    GeneticAlgorithm::Binary::SimpleAlgorithm algorithm(*population, *settings);
+    GeneticAlgorithm::Binary::Algorithms::SimpleAlgorithm algorithm(*population, *settings);
 
     for(int i=0; i<100; i++) {
         algorithm.iterate();
