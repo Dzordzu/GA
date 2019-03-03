@@ -3,7 +3,7 @@
 //
 
 #include "gtest/gtest.h"
-#include "GeneticAlgorithm/Algorithms.hpp"
+#include "GeneticAlgorithm/Binary.hpp"
 
 namespace MAX0 {
     class Evaluator : public GeneticAlgorithm::Binary::Evaluator {
@@ -17,10 +17,10 @@ namespace MAX0 {
             return genotypeLength;
         }
 
-        double calculateFitness(GeneticAlgorithm::Core::Individual<GeneticAlgorithm::Binary::Genotype> &i) override {
+        double calculateFitness(GeneticAlgorithm::Binary::Genotype &i) override {
             int zeros = 0;
-            for(int j = 0; j< i.getGenotypeReference().size(); j++) {
-                if(i.getGenotypeReference().at(j) == 0) zeros++;
+            for(int j = 0; j< i.size(); j++) {
+                if(i.at(j) == 0) zeros++;
             }
             return (double)zeros;
         }
