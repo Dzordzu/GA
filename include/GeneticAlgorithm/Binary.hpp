@@ -8,6 +8,7 @@
 #include "Core.hpp"
 #include <algorithm>
 #include <vector>
+#include <random>
 
 
 namespace GeneticAlgorithm {
@@ -18,6 +19,13 @@ namespace GeneticAlgorithm {
         typedef typename GeneticAlgorithm::Core::Individual<Genotype> Individual;
         typedef typename GeneticAlgorithm::Core::Population<Genotype> Population;
         typedef typename GeneticAlgorithm::Core::Algorithm<Genotype> Algorithm;
+
+        class Generator {
+            std::random_device rd;
+        public:
+            bool generateRandomBool();
+            Genotype generateRandomGenotype();
+        };
 
 
         namespace Populations {
