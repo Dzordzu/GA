@@ -36,14 +36,14 @@ TEST(BinaryAlgorithms, SimpleAlgorithm) {
     GeneticAlgorithm::Core::Settings settings{};
     settings.mutationProbability = 0.05;
     settings.crossoverProbability = 0.4;
-    settings.singleGeneMutationProbability = 0.1
+    settings.singleGeneMutationProbability = 0.1;
 
     MAX0::Evaluator evaluator(30);
 
-    GeneticAlgorithm::Binary::Populations::VectorPopulation vectorPopulation(*evaluator);
+    GeneticAlgorithm::Binary::Populations::VectorPopulation vectorPopulation(&evaluator);
     vectorPopulation.fillRandom(-1);
 
-    GeneticAlgorithm::Binary::Algorithms::SimpleAlgorithm algorithm(*population, *settings);
+    GeneticAlgorithm::Binary::Algorithms::SimpleAlgorithm algorithm(&vectorPopulation, &settings);
 
     for(int i=0; i<100; i++) {
         algorithm.iterate();

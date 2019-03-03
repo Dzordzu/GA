@@ -23,7 +23,9 @@ namespace GeneticAlgorithm {
         namespace Populations {
             class VectorPopulation : public Population {
                 std::vector<Individual> population;
+                Evaluator *evaluator;
             public:
+                inline explicit VectorPopulation(Evaluator *evaluator) : evaluator(evaluator) {};
                 void add(Genotype i) override;
                 void fillRandom(int toSize) override;
                 Individual getBest() override;
