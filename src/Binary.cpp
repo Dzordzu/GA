@@ -2,13 +2,27 @@
 // Created by dzordzu on 28.02.19.
 //
 
+#include <GeneticAlgorithm/Binary.hpp>
+
 #include "GeneticAlgorithm/Binary.hpp"
 
 namespace GeneticAlgorithm {
     namespace Binary {
 
         bool Generator::generateRandomBool() {
-            std::mt19937 gen(rd());
+            return (bool)(rand() % 2);
+        }
+
+        Genotype Generator::generateRandomGenotype(int genotypeLength) {
+
+            Genotype genotype;
+            genotype.resize(genotypeLength);
+
+            for(int i=0; i<genotypeLength; i++) {
+                genotype.at(i) = generateRandomBool();
+            }
+
+            return genotype;
         }
 
         namespace Populations {
