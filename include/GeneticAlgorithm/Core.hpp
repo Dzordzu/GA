@@ -6,6 +6,7 @@
 #define GENETIC_ALGORITHM_CORE_HPP
 
 #include <vector>
+#include <typeinfo>
 
 namespace GeneticAlgorithm {
 
@@ -14,7 +15,7 @@ namespace GeneticAlgorithm {
         template<typename Genotype>
         class Evaluator {
         public:
-            virtual size_t getGenotypeLength() = 0;
+            virtual std::size_t getGenotypeLength() = 0;
             virtual double calculateFitness(Genotype &i) = 0;
             virtual double getMaxFitness() = 0;
         };
@@ -83,6 +84,16 @@ namespace GeneticAlgorithm {
             virtual Settings *getSettings() = 0;
         };
 
+        template <typename Genotype>
+        class Mutation {
+        public:
+            virtual void mutate(Individual<Genotype> &individual) = 0;
+        };
+
+        template <typename Genotype>
+        class CrossoverMultipleSources {
+
+        };
     }
 }
 
