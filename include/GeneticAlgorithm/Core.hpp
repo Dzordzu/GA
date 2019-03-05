@@ -38,12 +38,11 @@ namespace GeneticAlgorithm {
             Evaluator<Genotype> *evaluator;
         public:
             virtual void add(Genotype i) = 0;
-            virtual void fillRandom(int toSize = -1) = 0;
+            virtual void fillRandom(int toSize) = 0;
             virtual Individual<Genotype> getBest() = 0;
-            virtual Individual<Genotype> &getRandomReference() = 0; //Why not iterators? We do not want to obligate user to use specific structure
-            virtual Individual<Genotype>  removeRandom() = 0; // Returns removed Individual
+            virtual Individual<Genotype> *getRandomPointer() = 0; //Why not iterators? We do not want to obligate user to use specific structure
 
-            virtual Evaluator<Genotype> *getEvaluatorPointer() = 0;
+            inline Evaluator<Genotype> &getEvaluatorReference() const { return evaluator; }
         };
 
         template<typename Genotype>

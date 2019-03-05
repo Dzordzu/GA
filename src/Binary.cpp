@@ -2,6 +2,8 @@
 // Created by dzordzu on 28.02.19.
 //
 
+#include <GeneticAlgorithm/Binary.hpp>
+
 #include "GeneticAlgorithm/Binary.hpp"
 
 namespace GeneticAlgorithm {
@@ -23,14 +25,39 @@ namespace GeneticAlgorithm {
             return genotype;
         }
 
+        int Generator::generateRandomIndex(int end) {
+            return rand() % end;
+        }
+
         namespace Populations {
 
             void VectorPopulation::add(Genotype i) {
 
                 Individual individual;
-                individual.setGenotype(Generator::getInstance().generateRandomGenotype(this->evaluator->getGenotypeLength()), this->evaluator);
+                individual.setGenotype(i, this->evaluator);
 
                 this->population.push_back(individual);
+            }
+
+            void VectorPopulation::fillRandom(int toSize) {
+
+                if(this->population.size() < toSize) this->population.resize(toSize);
+
+                for(int i=0; i<toSize; i++) {
+
+                    Individual individual;
+                    individual.setGenotype(Generator::getInstance().generateRandomGenotype(this->evaluator->getGenotypeLength()), this->evaluator);
+
+                    this->population.at(i) = individual;
+                }
+            }
+
+            Individual VectorPopulation::getBest() {
+                return this->best;
+            }
+
+            Individual *VectorPopulation::getRandomPointer() {
+                return &this->population.at(Generator::getInstance().generateRandomIndex(this->population.size()));
             }
         }
     }

@@ -32,21 +32,21 @@ namespace GeneticAlgorithm {
         public:
             bool generateRandomBool();
             Genotype generateRandomGenotype(int genotypeLength);
+            int generateRandomIndex(int end);
         };
 
 
         namespace Populations {
             class VectorPopulation : public Population {
+                Individual best;
                 std::vector<Individual> population;
                 Evaluator *evaluator;
             public:
                 inline explicit VectorPopulation(Evaluator *evaluator) : evaluator(evaluator) {};
                 void add(Genotype i) override;
-                void fillRandom(int toSize) override;
+                void fillRandom(int toSize = -1) override;
                 Individual getBest() override;
-                Individual &getRandomReference() override;
-                Individual removeRandom() override;
-                Evaluator *getEvaluatorPointer() override;
+                Individual *getRandomPointer() override;
             };
         }
 
