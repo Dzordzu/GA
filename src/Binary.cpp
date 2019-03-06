@@ -65,6 +65,10 @@ namespace GeneticAlgorithm {
                 this->population.resize(toSize);
                 this->fillWithRandom(toSize);
             }
+
+            int VectorPopulation::getPopulationSize() {
+                return this->population.size();
+            }
         }
 
         namespace Algorithms {
@@ -75,7 +79,7 @@ namespace GeneticAlgorithm {
             }
 
             void SimpleAlgorithm::iterate() {
-                
+
             }
         };
 

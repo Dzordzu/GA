@@ -48,6 +48,7 @@ namespace GeneticAlgorithm {
                 Individual getBest() override;
                 Individual *getRandomPointer() override;
                 void resize(int toSize) override;
+                int getPopulationSize() override;
             };
         }
 
