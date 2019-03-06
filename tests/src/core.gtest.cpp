@@ -64,7 +64,7 @@ TEST(BinaryPopulations, VectorPopulation) {
     EXPECT_EQ(population.getBest().getFitness(), 5);
 }
 
-/*
+
 TEST(BinaryAlgorithms, SimpleAlgorithm) {
 
     GeneticAlgorithm::Core::Settings settings{};
@@ -85,4 +85,4 @@ TEST(BinaryAlgorithms, SimpleAlgorithm) {
 
     algorithm.getPopulation()->getBest();
 }
- */
+ 
