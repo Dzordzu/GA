@@ -44,9 +44,10 @@ namespace GeneticAlgorithm {
             public:
                 inline explicit VectorPopulation(Evaluator *evaluator) : evaluator(evaluator) { this->getBest().zeroFitness(); };
                 void add(Genotype i) override;
-                void fillRandom(int toSize = -1) override; //C++11 better implementation
+                void fillWithRandom(int toSize) override; //C++11 better implementation
                 Individual getBest() override;
                 Individual *getRandomPointer() override;
+                void resize(int toSize) override;
             };
         }
 

@@ -40,7 +40,7 @@ namespace GeneticAlgorithm {
                     this->best = individual;
             }
 
-            void VectorPopulation::fillRandom(int toSize) {
+            void VectorPopulation::fillWithRandom(int toSize) {
 
                 if(this->population.size() < toSize) this->population.resize(toSize);
 
@@ -59,6 +59,11 @@ namespace GeneticAlgorithm {
 
             Individual *VectorPopulation::getRandomPointer() {
                 return &this->population.at(Generator::getInstance().generateRandomIndex(this->population.size()));
+            }
+
+            void VectorPopulation::resize(int toSize) {
+                this->population.resize(toSize);
+                this->fillWithRandom(toSize);
             }
         }
     }

@@ -60,7 +60,7 @@ TEST(BinaryPopulations, VectorPopulation) {
     EXPECT_THAT(population.getBest().getGenotypeReference(), ::testing::ElementsAre(0,0,0,0,0));
     EXPECT_THAT(population.getRandomPointer()->getGenotypeReference(), ::testing::AnyOf(::testing::ElementsAre(0,0,0,0,0), ::testing::ElementsAre(0,1,1,0,1)));
 
-    population.fillRandom(10);
+    population.fillWithRandom(10);
     EXPECT_EQ(population.getBest().getFitness(), 5);
 }
 
@@ -75,7 +75,7 @@ TEST(BinaryAlgorithms, SimpleAlgorithm) {
     MAX0::Evaluator evaluator(30);
 
     GeneticAlgorithm::Binary::Populations::VectorPopulation vectorPopulation(&evaluator);
-    vectorPopulation.fillRandom(-1);
+    vectorPopulation.fillWithRandom(-1);
 
     GeneticAlgorithm::Binary::Algorithms::SimpleAlgorithm algorithm(&vectorPopulation, &settings);
 
