@@ -42,7 +42,7 @@ namespace GeneticAlgorithm {
                 std::vector<Individual> population;
                 Evaluator *evaluator;
             public:
-                inline explicit VectorPopulation(Evaluator *evaluator) : evaluator(evaluator) {};
+                inline explicit VectorPopulation(Evaluator *evaluator) : evaluator(evaluator) { this->getBest().zeroFitness(); };
                 void add(Genotype i) override;
                 void fillRandom(int toSize = -1) override; //C++11 better implementation
                 Individual getBest() override;
