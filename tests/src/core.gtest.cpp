@@ -36,7 +36,7 @@ TEST(BinaryCoreFunctionality, Individual) {
     using GeneticAlgorithm::Binary::Genotype;
     using GeneticAlgorithm::Binary::Individual;
 
-    MAX0::Evaluator evaluator;
+    MAX0::Evaluator evaluator(5);
 
     Genotype genotype({0,1,1,0,1});
     Individual individual;
@@ -56,7 +56,12 @@ TEST(BinaryPopulations, VectorPopulation) {
     population.add(Genotype({0,1,1,0,1}));
     EXPECT_THAT(population.getBest().getGenotypeReference(), ::testing::ElementsAre(0,1,1,0,1));
 
+    population.add(Genotype({0,0,0,0,0}));
+    EXPECT_THAT(population.getBest().getGenotypeReference(), ::testing::ElementsAre(0,0,0,0,0));
+    EXPECT_THAT(population.getRandomPointer()->getGenotypeReference(), ::testing::AnyOf(::testing::ElementsAre(0,0,0,0,0), ::testing::ElementsAre(0,1,1,0,1)));
 
+    population.fillRandom(10);
+    EXPECT_EQ(population.getBest().getFitness(), 5);
 }
 
 /*
