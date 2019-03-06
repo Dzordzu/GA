@@ -30,9 +30,9 @@ namespace GeneticAlgorithm {
             Generator(Generator const&);
             void operator=(Generator const&);
         public:
-            bool generateRandomBool();
+            bool generateRandomBool(); //C++98 Features
             Genotype generateRandomGenotype(int genotypeLength);
-            int generateRandomIndex(int end);
+            int generateRandomIndex(int end); //C++98 Features
         };
 
 
@@ -44,7 +44,7 @@ namespace GeneticAlgorithm {
             public:
                 inline explicit VectorPopulation(Evaluator *evaluator) : evaluator(evaluator) {};
                 void add(Genotype i) override;
-                void fillRandom(int toSize = -1) override;
+                void fillRandom(int toSize = -1) override; //C++11 better implementation
                 Individual getBest() override;
                 Individual *getRandomPointer() override;
             };

@@ -30,7 +30,7 @@ namespace GeneticAlgorithm {
             void setGenotype(Genotype genotype, Evaluator<Genotype> *evaluator);
             Genotype &getGenotypeReference();
             void recalculateFitness(Evaluator<Genotype> *evaluator);
-            void zeroFitness();
+            void zeroFitness(); // C++98 Features
             double getFitness();
         };
 
