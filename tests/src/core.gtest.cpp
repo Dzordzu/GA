@@ -3,6 +3,7 @@
 //
 
 #include "gtest/gtest.h"
+#include "gmock/gmock.h"
 #include "GeneticAlgorithm/Binary.hpp"
 
 namespace MAX0 {
@@ -31,6 +32,34 @@ namespace MAX0 {
     };
 }
 
+TEST(BinaryCoreFunctionality, Individual) {
+    using GeneticAlgorithm::Binary::Genotype;
+    using GeneticAlgorithm::Binary::Individual;
+
+    MAX0::Evaluator evaluator;
+
+    Genotype genotype({0,1,1,0,1});
+    Individual individual;
+    individual.setGenotype(genotype, &evaluator);
+
+    EXPECT_EQ(individual.getFitness(), 2);
+    EXPECT_THAT(individual.getGenotypeReference(), ::testing::ElementsAre(0,1,1,0,1));
+}
+
+TEST(BinaryPopulations, VectorPopulation) {
+
+    using GeneticAlgorithm::Binary::Genotype;
+
+    MAX0::Evaluator evaluator;
+
+    GeneticAlgorithm::Binary::Populations::VectorPopulation population(&evaluator);
+    population.add(Genotype({0,1,1,0,1}));
+    EXPECT_THAT(population.getBest().getGenotypeReference(), ::testing::ElementsAre(0,1,1,0,1));
+
+
+}
+
+/*
 TEST(BinaryAlgorithms, SimpleAlgorithm) {
 
     GeneticAlgorithm::Core::Settings settings{};
@@ -51,3 +80,4 @@ TEST(BinaryAlgorithms, SimpleAlgorithm) {
 
     algorithm.getPopulation()->getBest();
 }
+ */

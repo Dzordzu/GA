@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <typeinfo>
+#include <float.h>
 
 namespace GeneticAlgorithm {
 
@@ -29,6 +30,7 @@ namespace GeneticAlgorithm {
             void setGenotype(Genotype genotype, Evaluator<Genotype> *evaluator);
             Genotype &getGenotypeReference();
             void recalculateFitness(Evaluator<Genotype> *evaluator);
+            void zeroFitness();
             double getFitness();
         };
 
@@ -64,6 +66,11 @@ namespace GeneticAlgorithm {
         template<typename Genotype>
         void Individual<Genotype>::recalculateFitness(Evaluator<Genotype> *evaluator) {
             this->fitness = evaluator->calculateFitness(this->genotype);
+        }
+
+        template<typename Genotype>
+        void Individual<Genotype>::zeroFitness() {
+            this->fitness = -DBL_MAX;
         }
 
         struct Settings {

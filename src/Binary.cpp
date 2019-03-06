@@ -4,7 +4,6 @@
 
 #include <GeneticAlgorithm/Binary.hpp>
 
-#include "GeneticAlgorithm/Binary.hpp"
 
 namespace GeneticAlgorithm {
     namespace Binary {
@@ -35,8 +34,10 @@ namespace GeneticAlgorithm {
 
                 Individual individual;
                 individual.setGenotype(i, this->evaluator);
-
                 this->population.push_back(individual);
+
+                if(individual.getFitness() > this->getBest().getFitness())
+                    this->best = individual;
             }
 
             void VectorPopulation::fillRandom(int toSize) {
