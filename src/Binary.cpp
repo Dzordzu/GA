@@ -28,6 +28,10 @@ namespace GeneticAlgorithm {
             return rand() % end;
         }
 
+        double Generator::generateRandomProbability() {
+            return rand() / RAND_MAX;
+        }
+
         namespace Populations {
 
             void VectorPopulation::add(Genotype i) {

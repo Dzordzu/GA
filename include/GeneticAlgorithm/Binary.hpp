@@ -33,6 +33,7 @@ namespace GeneticAlgorithm {
             bool generateRandomBool(); //C++98 Features
             Genotype generateRandomGenotype(int genotypeLength);
             int generateRandomIndex(int end); //C++98 Features
+            double generateRandomProbability(); //C++98 Features
         };
 
 
