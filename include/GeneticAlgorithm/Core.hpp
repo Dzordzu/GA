@@ -87,8 +87,8 @@ namespace GeneticAlgorithm {
             Settings *settings;
         public:
             virtual void iterate() = 0;
-            virtual Population<Genotype> *getPopulation() = 0;
-            virtual Settings *getSettings() = 0;
+            inline Population<Genotype> *getPopulation() {return population;}
+            inline Settings *getSettings() {return settings;}
         };
 
         template <typename Genotype>

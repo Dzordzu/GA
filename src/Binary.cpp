@@ -66,5 +66,18 @@ namespace GeneticAlgorithm {
                 this->fillWithRandom(toSize);
             }
         }
+
+        namespace Algorithms {
+
+            SimpleAlgorithm::SimpleAlgorithm(Population *population, GeneticAlgorithm::Core::Settings *settings) {
+                this->population = population;
+                this->settings = settings;
+            }
+
+            void SimpleAlgorithm::iterate() {
+                
+            }
+        };
+
     }
 }

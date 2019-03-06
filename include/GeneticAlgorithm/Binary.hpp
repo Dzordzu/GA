@@ -65,8 +65,6 @@ namespace GeneticAlgorithm {
             public:
                 SimpleAlgorithm(Population *population, GeneticAlgorithm::Core::Settings *settings);
                 void iterate() override;
-                Population *getPopulation() override;
-                Core::Settings *getSettings() override;
             };
 
         }
