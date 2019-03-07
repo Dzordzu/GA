@@ -115,7 +115,7 @@ namespace GeneticAlgorithm {
                     if(Generator::getInstance().generateRandomProbability() < this->settings->crossoverProbability) {
                         Individual * target = population->getRandomPointer();
                         Operations::Crossover::standardCrossover(*target, *population->getRandomPointer(), this->mask);
-                        if(target->getFitness() > this->getPopulation()->getBest().getFitness()) this->population->checkQuality(target->getGenotypeReference());
+                        this->population->checkQuality(target->getGenotypeReference());
                     }
 
                 }
