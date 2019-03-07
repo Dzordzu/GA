@@ -17,7 +17,7 @@ namespace GeneticAlgorithm {
         class Evaluator {
         public:
             virtual std::size_t getGenotypeLength() = 0;
-            virtual double calculateFitness(Genotype &i) = 0;
+            virtual double calculateFitness(Genotype &i) const = 0;
             virtual double getMaxFitness() = 0;
         };
 
@@ -45,8 +45,9 @@ namespace GeneticAlgorithm {
             virtual Individual<Genotype> *getRandomPointer() = 0; //Why not iterators? We do not want to obligate user to use specific structure
             virtual void resize(int toSize) = 0;
             virtual int getPopulationSize() = 0;
+            virtual bool checkQuality(Genotype &genotype) = 0;
 
-            inline Evaluator<Genotype> &getEvaluatorReference() const { return evaluator; }
+            inline Evaluator<Genotype> &getEvaluatorReference() const { return *evaluator; }
         };
 
         template<typename Genotype>

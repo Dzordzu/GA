@@ -5,6 +5,7 @@
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
 #include "GeneticAlgorithm/Binary.hpp"
+#include <ctime>
 
 namespace MAX0 {
     class Evaluator : public GeneticAlgorithm::Binary::Evaluator {
@@ -18,7 +19,7 @@ namespace MAX0 {
             return genotypeLength;
         }
 
-        double calculateFitness(GeneticAlgorithm::Binary::Genotype &i) override {
+        double calculateFitness(GeneticAlgorithm::Binary::Genotype &i) const override {
             int zeros = 0;
             for(int j = 0; j< i.size(); j++) {
                 if(i.at(j) == 0) zeros++;
@@ -67,22 +68,27 @@ TEST(BinaryPopulations, VectorPopulation) {
 
 TEST(BinaryAlgorithms, SimpleAlgorithm) {
 
+    srand(time(NULL));
+
+    std::cout<<"str";
+
     GeneticAlgorithm::Core::Settings settings{};
     settings.mutationProbability = 0.05;
     settings.crossoverProbability = 0.4;
     settings.singleGeneMutationProbability = 0.1;
 
-    MAX0::Evaluator evaluator(30);
+    MAX0::Evaluator evaluator(300);
 
     GeneticAlgorithm::Binary::Populations::VectorPopulation vectorPopulation(&evaluator);
+    vectorPopulation.fillWithRandom(100);
     vectorPopulation.fillWithRandom(-1);
 
     GeneticAlgorithm::Binary::Algorithms::SimpleAlgorithm algorithm(&vectorPopulation, &settings);
 
-    for(int i=0; i<100; i++) {
+    for(int i=0; i<1000; i++) {
         algorithm.iterate();
     }
 
-    algorithm.getPopulation()->getBest();
+    int help = 230;
+    EXPECT_THAT(algorithm.getPopulation()->getBest().getFitness(), ::testing::Gt(help));
 }
- 

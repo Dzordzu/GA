@@ -41,32 +41,38 @@ namespace GeneticAlgorithm {
             class VectorPopulation : public Population {
                 Individual best;
                 std::vector<Individual> population;
-                Evaluator *evaluator;
             public:
-                inline explicit VectorPopulation(Evaluator *evaluator) : evaluator(evaluator) { this->getBest().zeroFitness(); };
+                inline explicit VectorPopulation(Evaluator *evaluator) { this->getBest().zeroFitness(); this->evaluator = evaluator;};
                 void add(Genotype i) override;
-                void fillWithRandom(int toSize) override; //C++11 better implementation
+                void fillWithRandom(int toSize) override; //C++11 should have better implementation
                 Individual getBest() override;
                 Individual *getRandomPointer() override;
                 void resize(int toSize) override;
                 int getPopulationSize() override;
+                bool checkQuality(Genotype &genotype) override;
             };
         }
 
         namespace Operations {
+
+            typedef typename std::vector<int> Mask;
+
             namespace Crossover {
-                void standardCrossover(Individual &target, Individual &source);
-                void betterOneCrossover(Individual &target, Individual &source, Evaluator *evaluator);
-                void firstImprovementCrossover(Individual &target, Individual &source, Evaluator *evaluator);
+                void standardCrossover(Individual &target, Individual &source, Mask &mask);
+                //void betterOneCrossover(Individual &target, Individual &source, Evaluator *evaluator, Mask &mask);
+                //void firstImprovementCrossover(Individual &target, Individual &source, Evaluator *evaluator, Mask &mask);
             }
         }
 
         namespace Algorithms {
 
             class SimpleAlgorithm : public Algorithm {
+            protected:
+                Operations::Mask mask;
             public:
                 SimpleAlgorithm(Population *population, GeneticAlgorithm::Core::Settings *settings);
                 void iterate() override;
+                void setMask(Operations::Mask mask);
             };
 
         }

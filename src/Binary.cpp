@@ -46,6 +46,7 @@ namespace GeneticAlgorithm {
 
             void VectorPopulation::fillWithRandom(int toSize) {
 
+                if(toSize <= 0) toSize = this->population.size();
                 if(this->population.size() < toSize) this->population.resize(toSize);
 
                 for(int i=0; i<toSize; i++) {
@@ -73,6 +74,16 @@ namespace GeneticAlgorithm {
             int VectorPopulation::getPopulationSize() {
                 return this->population.size();
             }
+
+            bool VectorPopulation::checkQuality(Genotype &genotype) {
+                Individual individual;
+                individual.setGenotype(genotype, this->evaluator);
+                if(individual.getFitness() > this->best.getFitness()) {
+                    this->best = individual;
+                    return true;
+                }
+                return false;
+            }
         }
 
         namespace Algorithms {
@@ -80,12 +91,65 @@ namespace GeneticAlgorithm {
             SimpleAlgorithm::SimpleAlgorithm(Population *population, GeneticAlgorithm::Core::Settings *settings) {
                 this->population = population;
                 this->settings = settings;
+
+                this->mask = Operations::Mask();
+                int genotypeLength = population->getEvaluatorReference().getGenotypeLength();
+                mask.resize(genotypeLength);
+                Operations::Mask::iterator maskIterator = mask.begin();
+
+                for(int i=0; i<genotypeLength/2; i++) {
+                    *maskIterator = 0;
+                    maskIterator++;
+                }
+
+                for(int i=0; i<genotypeLength - genotypeLength/2; i++) {
+                    *maskIterator = 1;
+                    maskIterator++;
+                }
             }
 
             void SimpleAlgorithm::iterate() {
 
+                for(int i=0; i<this->population->getPopulationSize() / 2; i++) {
+
+                    if(Generator::getInstance().generateRandomProbability() < this->settings->crossoverProbability) {
+                        Individual * target = population->getRandomPointer();
+                        Operations::Crossover::standardCrossover(*target, *population->getRandomPointer(), this->mask);
+                        if(target->getFitness() > this->getPopulation()->getBest().getFitness()) this->population->checkQuality(target->getGenotypeReference());
+                    }
+
+                }
+
+            }
+
+            void SimpleAlgorithm::setMask(Operations::Mask mask) {
+                if(mask.size() != population->getEvaluatorReference().getGenotypeLength()) return;
+                this->mask = mask;
             }
         };
+
+        namespace Operations {
+
+            namespace Crossover {
+
+                void standardCrossover(Individual &target, Individual &source, Mask &mask) {
+
+                    Genotype::iterator targetIterator = target.getGenotypeReference().begin();
+                    Genotype::iterator sourceIterator = source.getGenotypeReference().begin();
+                    Mask::iterator maskIterator = mask.begin();
+
+                    for(int i=0; i<mask.size(); i++) {
+                        if(*maskIterator) *targetIterator = *sourceIterator;
+                        maskIterator++;
+                        targetIterator++;
+                        sourceIterator++;
+                    }
+
+                }
+
+            }
+
+        }
 
     }
 }
