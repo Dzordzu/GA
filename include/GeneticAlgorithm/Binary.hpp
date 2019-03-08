@@ -69,6 +69,7 @@ namespace GeneticAlgorithm {
             class SimpleAlgorithm : public Algorithm {
             protected:
                 Operations::Mask mask;
+                void mutate();
             public:
                 SimpleAlgorithm(Population *population, GeneticAlgorithm::Core::Settings *settings);
                 void iterate() override;

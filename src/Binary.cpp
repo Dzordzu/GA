@@ -126,6 +126,15 @@ namespace GeneticAlgorithm {
                 if(mask.size() != population->getEvaluatorReference().getGenotypeLength()) return;
                 this->mask = mask;
             }
+
+            void SimpleAlgorithm::mutate() {
+                Individual * individual = population->getRandomPointer();
+                int genLength = population->getEvaluatorReference().getGenotypeLength();
+
+                for(int i=0; i<genLength/3; i++)
+                    if(Generator::getInstance().generateRandomProbability() < this->settings->singleGeneMutationProbability)
+                        individual->getGenotypeReference()[Generator::getInstance().generateRandomIndex(genLength)];
+            }
         };
 
         namespace Operations {
