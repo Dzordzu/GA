@@ -112,6 +112,8 @@ namespace GeneticAlgorithm {
 
                 for(int i=0; i<this->population->getPopulationSize() / 2; i++) {
 
+                    if(Generator::getInstance().generateRandomProbability() < this->settings->mutationProbability) mutate();
+
                     if(Generator::getInstance().generateRandomProbability() < this->settings->crossoverProbability) {
                         Individual * target = population->getRandomPointer();
                         Operations::Crossover::standardCrossover(*target, *population->getRandomPointer(), this->mask);
@@ -132,8 +134,9 @@ namespace GeneticAlgorithm {
                 int genLength = population->getEvaluatorReference().getGenotypeLength();
 
                 for(int i=0; i<genLength/3; i++)
-                    if(Generator::getInstance().generateRandomProbability() < this->settings->singleGeneMutationProbability)
+                    if (Generator::getInstance().generateRandomProbability() < this->settings->singleGeneMutationProbability)
                         individual->getGenotypeReference()[Generator::getInstance().generateRandomIndex(genLength)];
+                individual->recalculateFitness(&this->population->getEvaluatorReference());
             }
         };
 

@@ -68,27 +68,33 @@ TEST(BinaryPopulations, VectorPopulation) {
 
 TEST(BinaryAlgorithms, SimpleAlgorithm) {
 
-    srand(time(NULL));
+    double average = 0;
 
-    std::cout<<"str";
+    for(int i=0; i<60; i++) {
 
-    GeneticAlgorithm::Core::Settings settings{};
-    settings.mutationProbability = 0.05;
-    settings.crossoverProbability = 0.4;
-    settings.singleGeneMutationProbability = 0.1;
+        srand(time(NULL));
 
-    MAX0::Evaluator evaluator(300);
+        GeneticAlgorithm::Core::Settings settings{};
+        settings.mutationProbability = 0.05;
+        settings.crossoverProbability = 0.4;
+        settings.singleGeneMutationProbability = 0.05;
 
-    GeneticAlgorithm::Binary::Populations::VectorPopulation vectorPopulation(&evaluator);
-    vectorPopulation.fillWithRandom(100);
-    vectorPopulation.fillWithRandom(-1);
+        MAX0::Evaluator evaluator(300);
 
-    GeneticAlgorithm::Binary::Algorithms::SimpleAlgorithm algorithm(&vectorPopulation, &settings);
+        GeneticAlgorithm::Binary::Populations::VectorPopulation vectorPopulation(&evaluator);
+        vectorPopulation.fillWithRandom(100);
+        vectorPopulation.fillWithRandom(-1);
 
-    for(int i=0; i<1000; i++) {
-        algorithm.iterate();
+        GeneticAlgorithm::Binary::Algorithms::SimpleAlgorithm algorithm(&vectorPopulation, &settings);
+
+        for (int j = 0; j < 100; j++) {
+            algorithm.iterate();
+        }
+
+        average += algorithm.getPopulation()->getBest().getFitness();
     }
 
-    int help = 230;
-    EXPECT_THAT(algorithm.getPopulation()->getBest().getFitness(), ::testing::Gt(help));
+    average /= 60;
+
+    EXPECT_THAT(average, ::testing::Gt(175));
 }
